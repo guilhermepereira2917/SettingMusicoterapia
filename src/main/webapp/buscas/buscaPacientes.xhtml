@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Busca de Pacientes</title>
+        <h:outputStylesheet library="css" name="main.css" />             
+    </h:head>
+
+    <p:growl id="growl" showDetail="true" />
+
+    <h:body>                        
+        <p:panel>
+            <h:form>                                
+                <p:dataTable var="paciente" value="#{pacienteView.lista}" selection="#{buscaBean.objetosSelecionados}" rowKey="#{paciente.id}"
+                             rows="5"
+                             paginator="true" 
+                             paginatorPosition="bottom"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} pacientes"
+                             rowsPerPageTemplate="5,10,{ShowAll|'Todos'}"
+                             allowUnsorting="true"
+                             selectionPageOnly="false">
+                   
+                    <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                    
+                    <p:column headerText="Código" sortBy="#{paciente.id}" filterBy="#{paciente.id}" filterMatchMode="contains" width="100px" style="text-align: center">
+                        <h:outputText value="#{paciente.id}"/>
+                    </p:column>
+
+                    <p:column headerText="Nome" sortBy="#{paciente.nome}" filterBy="#{paciente.nome}" filterMatchMode="contains">
+                        <h:outputText value="#{paciente.nome}"/>
+                    </p:column>
+
+                    <p:column headerText="Data Admissão" sortBy="#{paciente.dataAdmissao}" styleClass="text-align-left" style="width: 180px">
+                        <h:outputText value="#{paciente.dataAdmissao}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    
+                    <f:facet name="footer" >
+                        <p:commandButton value="Selecionar" action="#{buscaBean.finalizarBusca}" icon="pi pi-check"/>
+                    </f:facet>
+                </p:dataTable>
+            </h:form>
+        </p:panel>
+    </h:body>
+
+</html>

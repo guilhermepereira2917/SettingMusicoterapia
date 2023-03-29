@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition>
+        <p:panel header="Lista de Pacientes">
+            <h:form>
+                <p:dataTable var="paciente" value="#{pacienteView.lista}" selectionMode="single" rowKey="#{paciente.id}"
+                             rows="10" paginator="true" paginatorPosition="bottom"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} pacientes"
+                             rowsPerPageTemplate="5,10,{ShowAll|'Todos'}"
+                             allowUnsorting="true">
+
+                    <p:ajax event="rowSelect" listener="#{pacienteView.onRowSelect}"/>
+
+                    <p:column headerText="Código" sortBy="#{paciente.id}" filterBy="#{paciente.id}" filterMatchMode="contains" width="100px" style="text-align: center">
+                        <h:outputText value="#{paciente.id}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Nome" sortBy="#{paciente.nome}" filterBy="#{paciente.nome}" filterMatchMode="contains">
+                        <h:outputText value="#{paciente.nome}"/>
+                    </p:column>
+
+                    <p:column headerText="Data Admissão" sortBy="#{paciente.dataAdmissao}" styleClass="text-align-left" style="width: 180px">
+                        <h:outputText value="#{paciente.dataAdmissao}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </p:panel>
+    </ui:composition>
+</html>

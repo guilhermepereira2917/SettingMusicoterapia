@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Busca de Familiares</title>
+        <h:outputStylesheet library="css" name="main.css" />
+        <h:outputStylesheet library="css" name="dialog.css" />
+        <h:outputScript library="js" name="adicionaDatatable.js" />
+    </h:head>
+
+    <p:growl id="growl" showDetail="true" />
+
+    <h:body>        
+        <p:panel>
+            <h:form>
+                <p:dataTable var="familiar" value="#{familiarView.lista}" selectionMode="single" rowKey="#{familiar.id}"
+                             rows="5" paginator="true" paginatorPosition="bottom"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} familiares" 
+                             rowsPerPageTemplate="5,{ShowAll|'Todos'}"
+                             id="familiares"
+                             widgetVar="familiares"
+                             allowUnsorting="true">          
+
+                    <p:ajax event="rowDblselect" listener="#{familiarView.onRowSelect}"/>
+
+                    <p:column headerText="Código" sortBy="#{familiar.id}" filterBy="#{familiar.id}" style="width: 100px; text-align: center">
+                        <h:outputText value="#{familiar.id}"/>
+                    </p:column>
+
+                    <p:column headerText="Nome" sortBy="#{familiar.nome}" filterBy="#{familiar.nome}" styleClass="text-align-left">
+                        <h:outputText value="#{familiar.nome}"/>
+                    </p:column>
+
+                    <p:column headerText="Data Nascimento" sortBy="#{familiar.dataNascimento}" styleClass="text-align-left" style="width: 160px">
+                        <h:outputText value="#{familiar.dataNascimento}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    
+                    <p:column headerText="Ações" style="width: 100px; text-align: center">
+                        <p:commandButton value="Editar" actionListener="#{familiarView.abrirCadastroFamiliares(familiar)}">
+                            <p:ajax update="familiares" />
+                        </p:commandButton>
+                    </p:column>
+                        
+                    <f:facet name="footer" >
+                        <p:commandButton value="Novo" actionListener="#{familiarView.abrirCadastroFamiliares(null)}" update="familiares" icon="pi pi-plus" >
+                            <p:ajax update="familiares" />
+                        </p:commandButton>
+                    </f:facet>
+                </p:dataTable>  
+            </h:form>
+        </p:panel>
+    </h:body>
+
+</html>

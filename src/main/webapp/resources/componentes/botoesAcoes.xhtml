@@ -1,0 +1,41 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"   
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <composite:interface>
+        <composite:attribute name="excluirAction" method-signature="void excluirAction()"/>
+        <composite:attribute name="cancelarAction" method-signature="void cancelarAction()"/>
+        <composite:attribute name="salvarAction" method-signature="void salvarAction()"/>
+        <composite:attribute name="novoAction" method-signature="void novoAction()"/>
+    </composite:interface>
+    
+    <composite:implementation>  
+        <h:outputScript library="js" name="rolarTopo.js"/>
+        
+        <p:panelGrid columns="1">
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:commandButton value="Novo" actionListener="#{cc.attrs.novoAction}" update="growl form" oncomplete="rolarTopo()" icon="pi pi-plus"/>
+                    <p:spacer width="10"/>
+
+                    <p:commandButton value="Salvar" actionListener="#{cc.attrs.salvarAction}" update="growl form" oncomplete="rolarTopo()" icon="pi pi-save"/>
+                    <p:spacer width="10"/>
+
+                    <p:commandButton value="Cancelar" actionListener="#{cc.attrs.cancelarAction}" update="growl form" oncomplete="rolarTopo()" icon="pi pi-refresh" styleClass="ui-button-warning" >
+                        <p:confirm header="Confirmação" message="Tem certeza que deseja cancelar as alterações?" icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>
+                    <p:spacer width="10"/>                
+
+                    <p:commandButton value="Excluir" actionListener="#{cc.attrs.excluirAction}" update="growl form" icon="pi pi-trash" styleClass="ui-button-danger">
+                        <p:confirm header="Confirmação" message="Tem certeza que deseja excluir o registro?" icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>                
+                </p:toolbarGroup>
+            </p:toolbar>
+        </p:panelGrid>
+    </composite:implementation>
+</html>

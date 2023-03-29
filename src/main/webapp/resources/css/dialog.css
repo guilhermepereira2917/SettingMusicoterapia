@@ -1,0 +1,7 @@
+.ui-datatable-tablewrapper {
+    min-height: 480px !important;
+}
+
+.ui-dialog-content {
+    min-height: 620px !important;
+}

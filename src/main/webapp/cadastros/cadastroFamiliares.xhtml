@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:custom = "http://java.sun.com/jsf/composite/componentes" >
+    <h:head>
+        <title>Cadastro de Familiares</title>
+        <h:outputStylesheet library="css" name="main.css" />
+    </h:head>
+
+    <p:growl id="growl" showDetail="true" />
+
+    <h:form id="form">
+        <p:tabView>
+            <p:tab title="Dados Gerais">
+                <p:panelGrid columns="2" layout="grid">
+                    <custom:outputText labelValue="Código" inputStyleClass="codigo-output" inputValue="#{familiarBean.familiar.id}"/>
+
+                    <p:panelGrid columns="1"/>                      
+
+                    <custom:inputText labelValue="Nome" inputValue="#{familiarBean.familiar.nome}"/>
+
+                    <p:panelGrid columns="2" styleClass="tira-padding" layout="grid">
+                        <custom:inputDate labelValue="Data Nascimento" inputValue="#{familiarBean.familiar.dataNascimento}" />
+
+                        <custom:outputText labelValue="Idade" inputValue="#{familiarBean.familiar.idade}"/>
+                    </p:panelGrid>
+                    
+                    <custom:inputConverter
+                        labelValue="Profissão"
+                        
+                        inputObject="#{familiarBean.familiar.profissao}"
+                        inputId="#{familiarBean.familiar.profissao.id}"
+                        inputValue="#{familiarBean.familiar.profissao.nome}"
+                        
+                        retornoAction="#{familiarBean.selecionaProfissao}"
+                        buscaAction="#{buscaBean.abrirBuscaProfissoes}"
+                        limpaAction="#{familiarBean.limpaProfissao}"                        
+                        />
+                    
+                    <p:panelGrid columns="2" styleClass="tira-padding" layout="grid">
+                        <custom:inputMask labelValue="CPF" inputValue="#{familiarBean.familiar.cpf}" mask="999.999.999-99"/>
+
+                        <custom:inputNumber labelValue="RG" inputValue="#{familiarBean.familiar.rg}" maxlength="14"/>
+                    </p:panelGrid>
+                    
+                </p:panelGrid>
+            </p:tab>
+        </p:tabView>
+
+        <custom:botoesAcoes 
+            excluirAction="#{familiarBean.excluir()}"
+            cancelarAction="#{familiarBean.cancelar()}"
+            salvarAction="#{familiarBean.salvar()}"
+            novoAction="#{familiarBean.novo()}"                
+            />
+    </h:form>
+</html>

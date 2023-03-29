@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Busca de Profissões</title>
+        <h:outputStylesheet library="css" name="main.css" />
+        <h:outputStylesheet library="css" name="dialog.css" />
+        <h:outputScript library="js" name="adicionaDatatable.js" />
+    </h:head>
+
+    <p:growl id="growl" showDetail="true" />
+
+    <h:body>        
+        <p:panel>
+            <h:form>
+                <p:dataTable var="profissao" value="#{profissaoView.lista}" selectionMode="single" rowKey="#{profissao.id}"
+                             rows="5" paginator="true" paginatorPosition="bottom"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} profissões" 
+                             rowsPerPageTemplate="5,{ShowAll|'Todos'}"
+                             editable="true"
+                             id="profissoes"
+                             widgetVar="profissoes">          
+
+                    <p:ajax event="rowDblselect" listener="#{profissaoView.onRowSelect}"/>
+                    <p:ajax event="rowEdit" listener="#{profissaoView.salva}" update="profissoes growl" process="@all" immediate="true"/>
+
+                    <p:column headerText="Código" sortBy="#{profissao.id}" filterBy="#{profissao.id}" style="width: 100px; text-align: center">
+                        <h:outputText value="#{profissao.id}"/>
+                    </p:column>
+
+                    <p:column headerText="Nome" sortBy="#{profissao.nome}" filterBy="#{profissao.nome}" styleClass="text-align-left">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{profissao.nome}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{profissao.nome}" required="true" requiredMessage="Nome da profissao é obrigatório!">
+                                    <f:validator validatorId="NomeValidator" />
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>                        
+                    </p:column>
+
+                    <p:column style="width:4.5rem">
+                        <p:rowEditor editTitle="Editar Profissao" cancelTitle="Cancelar" saveTitle="Salvar"/>
+                    </p:column>
+
+                    <p:column style="width: 2rem">
+                        <p:commandButton actionListener="#{profissaoView.apaga(profissao)}" icon="pi pi-trash" styleClass="rounded-button ui-button-flat ui-button-danger" update="profissoes" style="align-self: center !important"/>
+                    </p:column>
+
+                    <f:facet name="footer" >
+                        <p:commandButton value="Novo" action="#{profissaoView.novo}" oncomplete="adicionaDatatable('profissoes')" process="profissoes" update="profissoes" icon="pi pi-plus"/>
+                    </f:facet>
+                </p:dataTable>  
+            </h:form>
+        </p:panel>
+    </h:body>
+            
+</html>

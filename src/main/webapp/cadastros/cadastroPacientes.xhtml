@@ -1,0 +1,287 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"          
+      xmlns:custom = "http://java.sun.com/jsf/composite/componentes">
+
+    <ui:composition template="/templates/pagina.xhtml">        
+        <ui:define name="title">
+            Cadastro de Pacientes - Setting de Musicoterapia
+        </ui:define>        
+
+        <ui:define name="content">
+            <h:form id="form">
+                <p:tabView id="tab">
+                    <p:tab title="Dados Gerais">
+                        <p:panel header="Dados Pessoais">
+                            <p:panelGrid columns="2" layout="grid">
+                                <p:panelGrid columns="2" styleClass="tira-padding" layout="grid">
+                                    <custom:outputText labelValue="Código" inputStyleClass="codigo-output" inputValue="#{pacienteBean.paciente.id}"/>
+
+                                    <p:panelGrid columns="1">
+                                        <p:spacer width="16"/>
+                                        <p:selectBooleanCheckbox value="#{pacienteBean.paciente.inativo}" itemLabel="Inativo" />
+                                    </p:panelGrid>
+                                </p:panelGrid>
+
+                                <custom:inputDate labelValue="Data Admissão" inputValue="#{pacienteBean.paciente.dataAdmissao}" />
+
+                                <custom:inputText labelValue="Nome Completo" inputValue="#{pacienteBean.paciente.nome}" required="true" requiredMessage="Nome do Paciente é obrigatório!"/>                            
+                                <custom:inputText labelValue="Apelido" inputValue="#{pacienteBean.paciente.apelido}" />
+
+                                <p:panelGrid columns="2" styleClass="tira-padding" layout="grid">
+                                    <custom:inputDate labelValue="Data Nascimento" inputValue="#{pacienteBean.paciente.dataNascimento}" />
+
+                                    <custom:outputText labelValue="Idade" inputValue="#{pacienteBean.paciente.idade}"/>
+                                </p:panelGrid>
+
+                                <p:panelGrid columns="1">
+                                    <p:outputLabel for="@next" value="Sexo"/>
+                                    <p:selectOneMenu id="option" value="#{pacienteBean.paciente.sexo}" required="true" requiredMessage="Sexo do Paciente é obrigatório!">
+                                        <f:selectItem itemLabel="Selecione o sexo do paciente" itemValue=""/>
+                                        <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                                        <f:selectItem itemLabel="Feminino" itemValue="F"/>
+                                    </p:selectOneMenu>
+                                </p:panelGrid>
+
+                                <p:panelGrid columns="1" id="panelPrematuro">
+                                    <p:selectBooleanCheckbox value="#{pacienteBean.paciente.prematuro}" itemLabel="Prematuro">
+                                        <p:ajax process="panelPrematuro" update="panelPrematuro" onstart="#{pacienteBean.limpaSemanasPrematuro()}"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:panelGrid columns="2" styleClass="tira-padding" layout="grid" columnClasses="ui-lg-3, ui-lg-9">
+                                        <p:outputLabel for="@next" value="Semanas Prematuro:"/>
+                                        <p:inputText type="number" value="#{pacienteBean.paciente.semanasPrematuro}" readonly="#{not pacienteBean.paciente.prematuro}" disabled="#{not pacienteBean.paciente.prematuro}"/> 
+                                    </p:panelGrid>
+                                </p:panelGrid>            
+
+                                <custom:inputConverter 
+                                    labelValue="País"                                
+
+                                    inputObject="#{pacienteBean.paciente.paisNacionalidade}"
+                                    inputId="#{pacienteBean.paciente.paisNacionalidade.id}"
+                                    inputValue="#{pacienteBean.paciente.paisNacionalidade.nome}"
+
+                                    buscaAction="#{buscaBean.abrirBuscaPaises}"
+                                    retornoAction="#{pacienteBean.selecionaNacionalidade}"
+                                    limpaAction="#{pacienteBean.limpaNacionalidade}"
+                                    />
+
+                                <custom:inputConverter 
+                                    labelValue="Cidade"                                
+
+                                    inputObject="#{pacienteBean.paciente.cidadeNaturalidade}"
+                                    inputId="#{pacienteBean.paciente.cidadeNaturalidade.id}"
+                                    inputValue="#{pacienteBean.paciente.cidadeNaturalidade.nome}"
+
+                                    buscaAction="#{buscaBean.abrirBuscaCidades}"
+                                    retornoAction="#{pacienteBean.selecionaNaturalidade}"
+                                    limpaAction="#{pacienteBean.limpaNaturalidade}"
+                                    />                           
+
+                                <custom:inputConverter 
+                                    labelValue="Profissão"                                
+
+                                    inputObject="#{pacienteBean.paciente.profissao}"
+                                    inputId="#{pacienteBean.paciente.profissao.id}"
+                                    inputValue="#{pacienteBean.paciente.profissao.nome}"
+
+                                    buscaAction="#{buscaBean.abrirBuscaProfissoes}"
+                                    retornoAction="#{pacienteBean.selecionaProfissao}"
+                                    limpaAction="#{pacienteBean.limpaProfissao}"
+                                    />    
+
+                                <custom:inputConverter 
+                                    labelValue="Religião"                                
+
+                                    inputObject="#{pacienteBean.paciente.religiao}"
+                                    inputId="#{pacienteBean.paciente.religiao.id}"
+                                    inputValue="#{pacienteBean.paciente.religiao.nome}"
+
+                                    buscaAction="#{buscaBean.abrirBuscaReligioes}"
+                                    retornoAction="#{pacienteBean.selecionaReligiao}"
+                                    limpaAction="#{pacienteBean.limpaReligiao}"
+                                    />                               
+
+                            </p:panelGrid>
+                        </p:panel>    
+
+                        <p:panel header="Contatos">
+                            <p:panelGrid columns="2" layout="grid">
+                                <p:panelGrid columns="1">
+                                    <p:dataTable value="#{pacienteBean.paciente.telefones}" var="telefone" rowIndexVar="index" id="panelTelefonesPaciente" widgetVar="telefones">
+                                        <f:facet name="header" >
+                                            <p:outputLabel value="Lista de Telefones" />
+                                        </f:facet>                                    
+
+                                        <p:column headerText="Código"  width="100px" style="text-align: center">
+                                            <p:outputLabel value="#{index + 1}" />                           
+                                        </p:column>
+
+                                        <p:column headerText="Telefone">
+                                            <p:inputMask value="#{telefone.telefone}" mask="(99) 99999-9999" converter="somenteNumerosConverter" required="true" requiredMessage="Preencha o número de telefone!"/>
+                                        </p:column>
+
+                                        <p:column headerText="Ações" style="width: 3.5rem; text-align: center !important">
+                                            <p:commandButton title="Remover Telefone" actionListener="#{pacienteBean.removeTelefone(telefone)}" immediate="true" update="panelTelefonesPaciente growl" icon="pi pi-trash" styleClass="rounded-button ui-button-flat ui-button-danger" >
+                                                <p:confirm header="Confirmação" message="Tem certeza que deseja remover o telefone?" icon="pi pi-exclamation-triangle"/>
+                                            </p:commandButton>
+                                        </p:column>                                    
+
+                                        <f:facet name="footer" >
+                                            <p:commandButton value="Adicionar Telefone" action="#{pacienteBean.adicionaTelefone}" update="panelTelefonesPaciente growl" icon="pi pi-plus"/>
+                                        </f:facet>
+                                    </p:dataTable>
+                                </p:panelGrid>                            
+
+                                <custom:inputText labelValue="Email" inputValue="#{pacienteBean.paciente.email}" />                            
+                            </p:panelGrid>
+                        </p:panel>
+
+                        <p:panel header="Endereço">    
+                            <p:panelGrid columns="2" layout="grid">
+                                <custom:inputText labelValue="Rua" inputValue="#{pacienteBean.paciente.enderecoRua}" />
+                                <custom:inputText labelValue="Bairro" inputValue="#{pacienteBean.paciente.enderecoBairro}" />
+                                <custom:inputText labelValue="Complemento" inputValue="#{pacienteBean.paciente.enderecoComplemento}" />
+
+                                <custom:inputNumber labelValue="Número" inputValue="#{pacienteBean.paciente.enderecoNumero}" maxlength="10"/>
+
+                                <custom:inputConverter 
+                                    labelValue="Cidade"                                
+
+                                    inputObject="#{pacienteBean.paciente.enderecoCidade}"
+                                    inputId="#{pacienteBean.paciente.enderecoCidade.id}"
+                                    inputValue="#{pacienteBean.paciente.enderecoCidade.nome}"
+
+                                    buscaAction="#{buscaBean.abrirBuscaCidades}"
+                                    retornoAction="#{pacienteBean.selecionaEnderecoCidade}"
+                                    limpaAction="#{pacienteBean.limpaEnderecoCidade}"                                                                
+
+                                    update=":form:tab:enderecoCep"
+                                    />   
+
+                                <custom:inputMask labelValue="CEP" inputValue="#{pacienteBean.paciente.enderecoCep}" mask="99999-999" id="enderecoCep"/>          
+                            </p:panelGrid>
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab title="Informações Familiares">
+                        <p:panel header="Familiares">
+                            <p:dataTable var="familiar" value="#{pacienteBean.paciente.familiares}" selectionMode="single" rowKey="#{familiar.familiar.id}" allowUnsorting="true" id="panelFamiliares">
+                                <p:column headerText="Código" sortBy="#{familiar.familiar.id}" width="100px" style="text-align: center">
+                                    <h:outputText value="#{familiar.familiar.id}"/>
+                                </p:column>
+
+                                <p:column headerText="Nome" sortBy="#{familiar.familiar.nome}">
+                                    <h:outputText value="#{familiar.familiar.nome}"/>
+                                </p:column>
+
+                                <p:column headerText="Grau Parentesco" sortBy="#{familiar.grauParentesco.nome}">
+                                    <p:selectOneMenu value="#{familiar.grauParentesco}" required="true" id="selectParentesco" converter="grauParentescoConverter"
+                                                     requiredMessage="Insira um nível de parentesco">
+                                        <f:selectItem itemLabel="Selecione" itemValue="#{null}"/>
+                                        <f:selectItems value="#{grauParentescoView.lista}" itemLabel="#{grauParentesco.nome}" itemValue="#{grauParentesco}" var="grauParentesco"/>
+
+                                        <p:ajax process="selectParentesco"/>
+                                    </p:selectOneMenu>
+                                </p:column>
+
+                                <p:column headerText="Mora com o Paciente" style="text-align: center">
+                                    <p:selectBooleanCheckbox value="#{familiar.moraComPaciente}"/>
+                                </p:column>
+
+                                <p:column headerText="Responde pela Musicoterapia" style="text-align: center">
+                                    <p:selectBooleanCheckbox value="#{familiar.respondePelaMusicoterapia}"/>
+                                </p:column>
+
+                                <p:column headerText="Ações" style="text-align: center">
+                                    <p:commandButton actionListener="#{pacienteBean.removeFamiliar(familiar)}" update="panelFamiliares growl" styleClass="ui-button-danger" value="Remover" icon="pi pi-trash" >
+                                        <p:confirm header="Confirmação" message="Tem certeza que deseja remover o familiar?" icon="pi pi-exclamation-triangle"/>
+                                    </p:commandButton>
+                                </p:column>
+
+                                <f:facet name="footer">
+                                    <p:commandButton value="Adicionar Familiar" actionListener="#{buscaBean.abrirBuscaFamiliares}" icon="pi pi-plus">
+                                        <p:ajax event="dialogReturn" listener="#{pacienteBean.adicionaFamiliar}" update="panelFamiliares growl" />
+                                    </p:commandButton>
+                                </f:facet>
+                            </p:dataTable>
+                        </p:panel>
+
+                        <p:panel header="Histórico Familiar">
+                            <p:panelGrid columns="2" layout="grid">
+                                <p:panelGrid columns="1">
+                                    <p:selectBooleanCheckbox value="#{pacienteBean.paciente.paisMoramJuntos}" itemLabel="Os pais citados nesta ficha moram juntos?"/>
+                                </p:panelGrid>
+
+                                <p:panelGrid columns="1">
+                                    <p:outputLabel for="@next" value="Demais Observações"/>
+                                    <p:inputTextarea value="#{pacienteBean.paciente.observacoesAmbienteFamiliar}" rows="5" counter="contador-observacoes" maxlength="255" counterTemplate="{0} caracteres restantes."/>
+                                    <h:outputText id="contador-observacoes" />
+                                </p:panelGrid>
+                            </p:panelGrid>
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab title="Histórico Desenvolvimento">
+                        <p:panel header="Histórico">
+                            <p:panelGrid columns="2" layout="grid">
+                                <custom:inputNumber labelValue="Começou a sentar com: (meses)" inputValue="#{pacienteBean.paciente.mesesComecouSentar}"/>                         
+                                <custom:inputNumber labelValue="Começou a engatinhar com: (meses)" inputValue="#{pacienteBean.paciente.mesesComecouEngatinhar}"/>                         
+                                <custom:inputNumber labelValue="Começou a falar com: (meses)" inputValue="#{pacienteBean.paciente.mesesComecouFalar}"/>                                                   
+                                <custom:inputNumber labelValue="Começou a ir no banheiro sozinho com: (anos)" inputValue="#{pacienteBean.paciente.idadeBanheiroSozinho}"/>                                                   
+
+                                <p:panelGrid columns="1">
+                                    <p:outputLabel value="O paciente se comunica verbalmente?" />
+                                    <p:selectOneRadio value="#{pacienteBean.paciente.comunicaVerbalmente}" >
+                                        <f:selectItem itemLabel="Sim" itemValue="S" />
+                                        <f:selectItem itemLabel="Não" itemValue="N" />
+                                        <f:selectItem itemLabel="Com Dificuldade" itemValue="C" />                               
+                                    </p:selectOneRadio>
+
+                                    <p:spacer/>
+
+                                    <p:selectBooleanCheckbox itemLabel="O Paciente reage e consegue compreender os gestos durante a interação?" value="#{pacienteBean.paciente.compreendeGestosInteracao}" />                               
+                                </p:panelGrid>      
+
+                                <p:panelGrid columns="1">
+                                    <p:outputLabel value="Observações adicionais: (Preocupações, etc...)" />
+                                    <p:inputTextarea value="#{pacienteBean.paciente.observacoesHistoricoDesenvolvimento}" rows="5" counter="contadorHistoricoDesenvolvimento" maxlength="255" counterTemplate="{0} caracteres restantes."/>
+                                    <h:outputText id="contadorHistoricoDesenvolvimento" />
+                                </p:panelGrid>
+                            </p:panelGrid>
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab title="Outros">
+                        <p:panel header="Informações Musicais">
+                            <p:panelGrid columns="2" layout="grid">
+                                <p:selectBooleanCheckbox value="#{pacienteBean.paciente.canta}" itemLabel="Canta?"/>
+                            </p:panelGrid>
+                        </p:panel>
+
+                        <p:panel header="Observações">
+
+                        </p:panel>
+                    </p:tab>
+                </p:tabView>
+
+                <custom:botoesAcoes 
+                    excluirAction="#{pacienteBean.excluir()}"
+                    cancelarAction="#{pacienteBean.cancelar()}"
+                    salvarAction="#{pacienteBean.salvar()}"
+                    novoAction="#{pacienteBean.novo()}"                
+                    />
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350" styleClass="ui-warning-dialog">
+                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" />
+                </p:confirmDialog>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
