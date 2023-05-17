@@ -1,22 +1,25 @@
 package beans;
 
-import jakarta.enterprise.context.Dependent;
-import jakarta.persistence.Persistence;
+import jakarta.ejb.LocalBean;
+import jakarta.ejb.Stateless;
+import jakarta.persistence.PersistenceContext;
 
-@Dependent
+@Stateless
+@LocalBean
 public class EntityManager {
 
-    public static jakarta.persistence.EntityManager entityManager = Persistence.createEntityManagerFactory("MainPersistenceUnit").createEntityManager();
+    @PersistenceContext(unitName = "MainPersistenceUnit")
+    private jakarta.persistence.EntityManager entityManager;
 
-    public static <T> T salvar(T objeto) {
+    public <T> T salvar(T objeto) {
         return entityManager.merge(objeto);
     }
 
-    public static void cancelar(Object objeto) {
+    public void cancelar(Object objeto) {
         entityManager.refresh(objeto);
     }
 
-    public static boolean excluir(Object objeto) {
+    public boolean excluir(Object objeto) {
         try {
             entityManager.getTransaction().begin();
             entityManager.remove(objeto);
@@ -31,7 +34,7 @@ public class EntityManager {
         }
     }
 
-    public static <T> T procurar(Integer id, Class<T> clazz) {
+    public <T> T procurar(Integer id, Class<T> clazz) {
         try {            
             T objeto = entityManager.createQuery(String.format("SELECT c FROM %s c WHERE c.id = %d", clazz.getName(), id), clazz).getSingleResult();           
 
@@ -44,4 +47,7 @@ public class EntityManager {
         }
     }
 
+    public jakarta.persistence.EntityManager getEntityManager() {
+        return entityManager;
+    }
 }

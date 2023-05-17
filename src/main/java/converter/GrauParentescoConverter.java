@@ -3,6 +3,8 @@ package converter;
 import beans.EntityManager;
 import entities.GrauParentesco;
 import java.io.Serializable;
+
+import jakarta.ejb.EJB;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
@@ -12,6 +14,9 @@ import jakarta.faces.convert.FacesConverter;
 
 @FacesConverter("grauParentescoConverter")
 public class GrauParentescoConverter implements Converter, Serializable {
+
+    @EJB
+    private EntityManager entityManager;
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object objeto) {
@@ -30,7 +35,7 @@ public class GrauParentescoConverter implements Converter, Serializable {
         }
 
         try {
-            return EntityManager.procurar(Integer.parseInt(valor), GrauParentesco.class);
+            return entityManager.procurar(Integer.parseInt(valor), GrauParentesco.class);
         } catch (NumberFormatException ex) {
             throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_WARN, "Erro!", "Grau de Parentesco Inválido!"));
         }

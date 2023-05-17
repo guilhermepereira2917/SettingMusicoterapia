@@ -4,6 +4,9 @@ import beans.EntityManager;
 import java.io.Serializable;
 import java.util.List;
 import jakarta.annotation.PostConstruct;
+import jakarta.ejb.EJB;
+import jakarta.faces.bean.ManagedBean;
+import jakarta.faces.bean.ViewScoped;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
@@ -11,6 +14,9 @@ import utils.JSFUtils;
 
 public class View<T> implements Serializable {
 
+    @EJB
+    private EntityManager entityManager;
+    
     private final Class<T> tipo;
     private List<T> lista;
 
@@ -20,7 +26,7 @@ public class View<T> implements Serializable {
 
     @PostConstruct
     public void init() {
-        lista = EntityManager.entityManager.createQuery(String.format("SELECT p FROM %s p", tipo.getName())).getResultList();
+        lista = entityManager.getEntityManager().createQuery(String.format("SELECT p FROM %s p", tipo.getName())).getResultList();
     }
 
     public List<T> getLista() {
@@ -54,7 +60,7 @@ public class View<T> implements Serializable {
             }
         }
         
-        objeto = EntityManager.salvar(event.getObject());
+        objeto = entityManager.salvar(event.getObject());
         if (objeto == null) {
             JSFUtils.mensagemErro("Erro ao salvar registro!");
             return;
@@ -75,7 +81,7 @@ public class View<T> implements Serializable {
 
     public void apaga(T objeto) {
         lista.remove(objeto);
-        EntityManager.excluir(objeto);
+        entityManager.excluir(objeto);
         
         JSFUtils.mensagemSucesso("Registro excluído com sucesso!");
     }

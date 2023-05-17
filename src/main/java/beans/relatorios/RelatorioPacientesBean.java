@@ -23,6 +23,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
 import jakarta.annotation.PostConstruct;
+import jakarta.ejb.EJB;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -50,6 +51,9 @@ public class RelatorioPacientesBean implements Serializable {
     private Character ordenacao;
 
     private Boolean usarAnd;
+
+    @EJB
+    private EntityManager entityManager;
 
     @Inject
     BuscaBean buscaBean;
@@ -96,7 +100,7 @@ public class RelatorioPacientesBean implements Serializable {
 
     public void tirarRelatorio() {
         LocalDateTime dataHoraAtual = LocalDateTime.now();
-        List<Paciente> pacientes = EntityManager.entityManager.createQuery(montarSelect(), Paciente.class).getResultList();
+        List<Paciente> pacientes = entityManager.getEntityManager().createQuery(montarSelect(), Paciente.class).getResultList();
 
         if (pacientes.isEmpty()) {
             JSFUtils.mensagemAviso("Nenhum paciente encontrado!");
