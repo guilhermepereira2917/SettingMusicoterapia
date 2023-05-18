@@ -4,9 +4,10 @@ import entities.Religiao;
 import java.io.Serializable;
 import jakarta.faces.bean.ManagedBean;
 import jakarta.faces.bean.ViewScoped;
+import jakarta.inject.Named;
 import utils.JSFUtils;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class ReligiaoView extends View<Religiao> implements Serializable {
 

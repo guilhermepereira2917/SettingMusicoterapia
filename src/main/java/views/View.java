@@ -5,8 +5,6 @@ import java.io.Serializable;
 import java.util.List;
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
-import jakarta.faces.bean.ManagedBean;
-import jakarta.faces.bean.ViewScoped;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
@@ -16,7 +14,7 @@ public class View<T> implements Serializable {
 
     @EJB
     private EntityManager entityManager;
-    
+
     private final Class<T> tipo;
     private List<T> lista;
 

@@ -4,9 +4,11 @@ import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.PersistenceContext;
 
+import java.io.Serializable;
+
 @Stateless
 @LocalBean
-public class EntityManager {
+public class EntityManager implements Serializable {
 
     @PersistenceContext(unitName = "MainPersistenceUnit")
     private jakarta.persistence.EntityManager entityManager;

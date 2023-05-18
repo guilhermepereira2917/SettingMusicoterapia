@@ -1,13 +1,12 @@
 package views;
 
 import beans.BuscaBean;
-import beans.cadastros.FamiliarBean;
 import entities.Familiar;
-import jakarta.faces.bean.ManagedBean;
 import jakarta.faces.bean.ViewScoped;
+import jakarta.inject.Named;
 import utils.JSFUtils;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class FamiliarView extends View<Familiar> {
     
