@@ -22,18 +22,12 @@ public class EntityManager implements Serializable {
     }
 
     public boolean excluir(Object objeto) {
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.remove(objeto);
-            entityManager.getTransaction().commit();
-
-            return true;
-        } catch (Exception exception) {
-            entityManager.getTransaction().rollback();
-            exception.printStackTrace();
-
-            return false;
+        if (!entityManager.contains(objeto)) {
+            objeto = entityManager.merge(objeto);
         }
+
+        entityManager.remove(objeto);
+        return true;
     }
 
     public <T> T procurar(Integer id, Class<T> clazz) {
