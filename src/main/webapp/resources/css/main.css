@@ -3,25 +3,12 @@
 }
 
 body {
-    height: 100vh;
+    min-height: 100vh;
     max-width: 100vw !important;
 }
 
 a {
     text-decoration: none;
-}
-
-.logo {
-    width: 100px;
-}
-
-.sidebar {
-    position: sticky !important;
-    top: 2rem !important;
-
-    width: 100%;
-
-    text-align: center;
 }
 
 .ui-panelgrid-cell, .ui-inputtext, .ui-inputtextarea, .ui-panelgrid, .ui-panelgrid tbody {

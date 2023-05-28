@@ -13,16 +13,21 @@
         </title>
 
         <h:outputStylesheet library="css" name="main.css" />
+        <h:outputStylesheet library="css" name="topbar.css" />
+        <h:outputStylesheet library="css" name="sidebar.css" />
+
         <link rel="shortcut icon" href="#{resource['/img/logo_musicoterapia.png']}"/>
     </h:head>
 
-    <h:body>        
-        <p:growl id="growl" showDetail="true" />
+    <h:body>
+        <ui:include src="topbar.xhtml" id="topbar"/>
 
         <p:panelGrid columns="2" layout="grid" columnClasses="ui-g-12 ui-md-4 ui-lg-2, ui-g-12 ui-md-8 ui-lg-10">
             <ui:include src="/templates/sidebar.xhtml" id="sidebar"/>
 
             <ui:insert name="content"/>            
         </p:panelGrid>
+
+        <p:growl id="growl" showDetail="true" />
     </h:body>
 </html>

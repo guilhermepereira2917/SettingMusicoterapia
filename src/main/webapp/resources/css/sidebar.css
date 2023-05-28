@@ -1,0 +1,8 @@
+.sidebar {
+    position: sticky !important;
+    top: 5rem !important;
+
+    width: 100%;
+
+    text-align: center;
+}
