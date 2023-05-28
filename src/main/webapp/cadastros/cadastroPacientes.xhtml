@@ -180,7 +180,7 @@
                                 </p:column>
 
                                 <p:column headerText="Grau Parentesco" sortBy="#{familiar.grauParentesco.nome}">
-                                    <p:selectOneMenu value="#{familiar.grauParentesco}" required="true" id="selectParentesco" converter="grauParentescoConverter"
+                                    <p:selectOneMenu value="#{familiar.grauParentesco}" required="true" id="selectParentesco" converter="#{grauParentescoConverter}"
                                                      requiredMessage="Insira um nível de parentesco">
                                         <f:selectItem itemLabel="Selecione" itemValue="#{null}"/>
                                         <f:selectItems value="#{grauParentescoView.lista}" itemLabel="#{grauParentesco.nome}" itemValue="#{grauParentesco}" var="grauParentesco"/>
