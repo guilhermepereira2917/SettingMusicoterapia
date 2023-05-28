@@ -564,6 +564,22 @@ CREATE TABLE IF NOT EXISTS `SettingMusicoterapia`.`FamiliarPaciente` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `SettingMusicoterapia`.`Profissional`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `SettingMusicoterapia`.`Profissional` (
+  `idProfissional` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(50) NOT NULL,
+  `idProfissao` INT NOT NULL,
+  PRIMARY KEY (`idProfissional`),
+  INDEX `fk_Profissional_Profissao1_idx` (`idProfissao` ASC) VISIBLE,
+  CONSTRAINT `fk_Profissional_Profissao1`
+    FOREIGN KEY (`idProfissao`)
+    REFERENCES `SettingMusicoterapia`.`Profissao` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
@@ -573,6 +589,8 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 INSERT INTO Pais VALUES (1, 'Brasil');
 INSERT INTO Estado VALUES (1, 'Rio Grande do Sul', 'RS', 1);
 INSERT INTO Cidade(id, nome, idEstado, cep) VALUES (1, 'Erechim', 1, '99700000');
+
+INSERT INTO Profissao VALUES (1, 'Terapeuta');
 
 INSERT INTO GrauParentesco VALUES
 	(1, 'Pai/Mãe'),
