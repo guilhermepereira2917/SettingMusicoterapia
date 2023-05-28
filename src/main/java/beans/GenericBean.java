@@ -19,12 +19,13 @@ public abstract class GenericBean<T> implements Serializable {
             return;
         }
 
-        T objetoPersistido = entityManager.salvar(objetoCrud);
-        if (objetoPersistido != null) {
-            objetoCrud = objetoPersistido;
+        try {
+            objetoCrud = entityManager.salvar(objetoCrud);
+
             JSFUtils.mensagemSucesso("Registro salvo com sucesso!");
-        } else {
-            JSFUtils.mensagemErro("Erro ao salvar registro!");
+        } catch (Exception ex) {
+            String mensagemErro = String.format("Erro '%s' ao salvar registro!", ex.getMessage());
+            JSFUtils.mensagemErro(mensagemErro);
         }
     }
 

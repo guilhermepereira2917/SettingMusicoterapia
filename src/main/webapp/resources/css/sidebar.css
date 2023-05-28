@@ -6,3 +6,7 @@
 
     text-align: center;
 }
+
+.sidebar > tbody > .ui-widget-content > .ui-panelgrid-cell > .ui-linkbutton {
+    width: 100%;
+}
