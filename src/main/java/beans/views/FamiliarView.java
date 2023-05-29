@@ -1,4 +1,4 @@
-package views;
+package beans.views;
 
 import beans.BuscaBean;
 import entities.Familiar;

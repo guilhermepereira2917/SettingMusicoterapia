@@ -1,13 +1,14 @@
-package views;
+package beans.views;
 
 import entities.Cidade;
 import java.io.Serializable;
-import jakarta.faces.bean.ViewScoped;
+
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
 import utils.JSFUtils;
 
 @Named
-@ViewScoped
+@SessionScoped
 public class CidadeView extends View<Cidade> implements Serializable {
 
     public CidadeView() {

@@ -1,4 +1,4 @@
-package views;
+package beans.views;
 
 import entities.GrauParentesco;
 import jakarta.faces.bean.ViewScoped;

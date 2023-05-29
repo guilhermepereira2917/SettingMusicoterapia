@@ -1,4 +1,4 @@
-package views;
+package beans.views;
 
 import beans.EntityManager;
 import java.io.Serializable;
@@ -10,7 +10,7 @@ import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 import utils.JSFUtils;
 
-public class View<T> implements Serializable {
+public abstract class View<T> implements Serializable {
 
     @EJB
     private EntityManager entityManager;

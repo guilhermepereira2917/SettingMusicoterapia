@@ -1,14 +1,15 @@
-package views;
+package beans.views;
 
 import entities.Religiao;
 import java.io.Serializable;
-import jakarta.faces.bean.ManagedBean;
+
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.bean.ViewScoped;
 import jakarta.inject.Named;
 import utils.JSFUtils;
 
 @Named
-@ViewScoped
+@SessionScoped
 public class ReligiaoView extends View<Religiao> implements Serializable {
 
     public ReligiaoView() {

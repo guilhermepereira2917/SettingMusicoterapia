@@ -1,13 +1,15 @@
-package views;
+package beans.views;
 
 import entities.Pais;
 import java.io.Serializable;
+
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.bean.ViewScoped;
 import jakarta.inject.Named;
 import utils.JSFUtils;
 
 @Named
-@ViewScoped
+@SessionScoped
 public class PaisView extends View<Pais> implements Serializable {
 
     public PaisView() {

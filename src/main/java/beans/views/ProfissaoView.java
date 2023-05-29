@@ -1,13 +1,13 @@
-package views;
+package beans.views;
 
 import entities.Profissao;
 import java.io.Serializable;
-import jakarta.faces.bean.ViewScoped;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
 import utils.JSFUtils;
 
 @Named
-@ViewScoped
+@SessionScoped
 public class ProfissaoView extends View<Profissao> implements Serializable {
 
     public ProfissaoView() {
