@@ -568,10 +568,10 @@ ENGINE = InnoDB;
 -- Table `SettingMusicoterapia`.`Profissional`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SettingMusicoterapia`.`Profissional` (
-  `idProfissional` INT NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(50) NOT NULL,
   `idProfissao` INT NOT NULL,
-  PRIMARY KEY (`idProfissional`),
+  PRIMARY KEY (`id`),
   INDEX `fk_Profissional_Profissao1_idx` (`idProfissao` ASC) VISIBLE,
   CONSTRAINT `fk_Profissional_Profissao1`
     FOREIGN KEY (`idProfissao`)
