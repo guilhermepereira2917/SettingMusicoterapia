@@ -32,6 +32,11 @@ public abstract class GenericBuscaBean<T, S extends GenericService, F extends Fi
         registros = service.retornaRegistrosFiltrados(filtros);
     }
 
+    public void limparFiltros() {
+        filtros.limparFiltros();
+        pesquisar();
+    }
+
     protected abstract void iniciaFiltros();
 
     public List<T> getRegistros() {
