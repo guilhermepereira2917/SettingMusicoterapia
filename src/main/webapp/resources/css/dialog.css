@@ -5,3 +5,15 @@
 .ui-dialog-content {
     min-height: 620px !important;
 }
+
+.panel-filtros  > .ui-panel-content {
+    display: flex;
+}
+
+body .ui-panelgrid .ui-panelgrid-cell {
+    border: 0px;
+}
+
+.ui-panelgrid-cell, .ui-inputtext, .ui-inputtextarea, .ui-panelgrid, .ui-panelgrid tbody {
+    width: auto;
+}

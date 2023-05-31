@@ -48,33 +48,41 @@ public class BuscaBean implements Serializable {
     public void finalizarBusca() {
         PrimeFaces.current().dialog().closeDynamic(null);
     }
-    
-    private static void abrirBusca(BuscaEnum busca) {
+
+    public void finalizarBuscaSelectEvent(SelectEvent event) {
+        PrimeFaces.current().dialog().closeDynamic(event.getObject());
+    }
+
+    private void abrirBusca(BuscaEnum busca) {
         JSFUtils.abreDialog("/buscas/" + busca.getCaminhoMenu());
     }
 
-    public static void abrirBuscaPaises() {
+    public void abrirBuscaPaises() {
         abrirBusca(BuscaEnum.BUSCA_PAISES);
     }
 
-    public static void abrirBuscaCidades() {
+    public void abrirBuscaCidades() {
         abrirBusca(BuscaEnum.BUSCA_CIDADES);
     }
 
-    public static void abrirBuscaProfissoes() {
+    public void abrirBuscaProfissoes() {
         abrirBusca(BuscaEnum.BUSCA_PROFISSOES);
     }
 
-    public static void abrirBuscaReligioes() {
+    public void abrirBuscaReligioes() {
         abrirBusca(BuscaEnum.BUSCA_RELIGIOES);
     }
 
-    public static void abrirBuscaFamiliares() {
+    public void abrirBuscaFamiliares() {
         abrirBusca(BuscaEnum.BUSCA_FAMILIARES);
     }
 
-    public static void abrirBuscaPacientes() {
+    public void abrirBuscaPacientes() {
         abrirBusca(BuscaEnum.BUSCA_PACIENTES);
+    }
+
+    public void abrirBuscaProfissionais() {
+        abrirBusca(BuscaEnum.BUSCA_PROFISSIONAIS);
     }
 
 }

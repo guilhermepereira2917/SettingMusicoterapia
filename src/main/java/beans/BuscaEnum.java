@@ -6,7 +6,8 @@ public enum BuscaEnum {
     BUSCA_PROFISSOES("buscaProfissoes"),
     BUSCA_RELIGIOES("buscaReligioes"),
     BUSCA_FAMILIARES("buscaFamiliares"),
-    BUSCA_PACIENTES("buscaPacientes");
+    BUSCA_PACIENTES("buscaPacientes"),
+    BUSCA_PROFISSIONAIS("buscaProfissionais.xhtml");
 
     private final String caminhoMenu;
     

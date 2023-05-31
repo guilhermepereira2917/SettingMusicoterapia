@@ -3,12 +3,16 @@ package beans;
 import java.io.Serializable;
 
 import jakarta.ejb.EJB;
+import jakarta.inject.Inject;
 import utils.JSFUtils;
 
 public abstract class GenericBean<T> implements Serializable {
 
     @EJB
     protected EntityManager entityManager;
+
+    @Inject
+    protected BuscaBean buscaBean;
 
     protected T objetoCrud;
 

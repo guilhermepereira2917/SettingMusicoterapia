@@ -21,7 +21,7 @@
     </composite:interface>
 
     <composite:implementation>        
-        <p:remoteCommand name="#{cc.id}" action="#{cc.attrs.retornoAction}" update="panelGrid #{cc.attrs.update}" />
+        <p:remoteCommand name="#{cc.id}" action="#{cc.attrs.retornoAction}" immediate="true" update="panelGrid #{cc.attrs.update}" />
 
         <p:panelGrid columns="1">                                                
             <p:outputLabel for="@next" value="#{cc.attrs.labelValue}"/>            
@@ -30,8 +30,8 @@
                 <p:inputText value="#{cc.attrs.inputId}" disabled="true" />
                 <p:inputText value="#{cc.attrs.inputValue}" readonly="true" />
 
-                <p:commandButton action="#{cc.attrs.limpaAction}" rendered="#{not empty cc.attrs.inputObject}" update="@parent" icon="pi pi-trash" styleClass="ui-button-danger"/>
-                <p:commandButton action="#{cc.attrs.buscaAction}" icon="pi pi-search" styleClass="ui-button-info" >
+                <p:commandButton action="#{cc.attrs.limpaAction}" immediate="true" rendered="#{not empty cc.attrs.inputObject}" update="@parent" icon="pi pi-trash" styleClass="ui-button-danger"/>
+                <p:commandButton action="#{cc.attrs.buscaAction}" immediate="true" icon="pi pi-search" styleClass="ui-button-info" >
                     <p:ajax event="dialogReturn" listener="#{buscaBean.resultadoPesquisaInputConverter}" oncomplete="#{cc.id}()"/>
                 </p:commandButton>
             </p:panelGrid>

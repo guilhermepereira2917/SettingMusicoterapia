@@ -60,8 +60,12 @@ td.ui-panelgrid-cell {
     padding-top: 2rem !important;
 }
 
-.codigo-output {
+.output-codigo {
     width: 8rem;
+}
+
+.input-codigo > .ui-inputtext {
+    width: 8rem !important;
 }
 
 .tira-padding > * > * > * {

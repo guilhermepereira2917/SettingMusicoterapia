@@ -18,13 +18,13 @@
                 <p:tab title="Dados Gerais">
                     <p:panel header="Dados Gerais">
                         <p:panelGrid columns="2" layout="grid">
-                            <custom:outputText labelValue="Código" inputStyleClass="codigo-output"
+                            <custom:outputText labelValue="Código" inputStyleClass="output-codigo"
                                                inputValue="#{profissionalBean.profissional.id}"/>
+                            <br/>
 
-                            <br />
-
-                            <custom:inputText labelValue="Nome Completo" inputValue="#{profissionalBean.profissional.nome}"
-                                              required="true" requiredMessage="Nome do profissional é obrigatório!"/>
+                            <custom:inputText labelValue="Nome Completo"
+                                              inputValue="#{profissionalBean.profissional.nome}"
+                                              required="false" requiredMessage="Nome do profissional é obrigatório!"/>
 
                             <custom:inputConverter
                                     labelValue="Profissão"
@@ -33,9 +33,9 @@
                                     inputId="#{profissionalBean.profissional.profissao.id}"
                                     inputValue="#{profissionalBean.profissional.profissao.nome}"
 
-                                    buscaAction="#{buscaBean.abrirBuscaProfissoes}"
-                                    retornoAction="#{profissionalBean.selecionaProfissao}"
-                                    limpaAction="#{profissionalBean.limpaProfissao}"
+                                    buscaAction="#{buscaBean.abrirBuscaProfissoes()}"
+                                    retornoAction="#{profissionalBean.selecionaProfissao()}"
+                                    limpaAction="#{profissionalBean.limpaProfissao()}"
                             />
                         </p:panelGrid>
                     </p:panel>
@@ -43,10 +43,12 @@
             </p:tabView>
 
             <custom:botoesAcoes
-                    excluirAction="#{profissionalBean.excluir()}"
-                    cancelarAction="#{profissionalBean.cancelar()}"
-                    salvarAction="#{profissionalBean.salvar()}"
                     novoAction="#{profissionalBean.novo()}"
+                    pesquisarAction="#{buscaBean.abrirBuscaProfissionais()}"
+                    retornoPesquisarAction="#{profissionalBean.selecionarProfissional()}"
+                    salvarAction="#{profissionalBean.salvar()}"
+                    cancelarAction="#{profissionalBean.cancelar()}"
+                    excluirAction="#{profissionalBean.excluir()}"
             />
         </h:form>
     </ui:define>

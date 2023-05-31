@@ -8,20 +8,29 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <composite:interface>
-        <composite:attribute name="excluirAction" method-signature="void excluirAction()"/>
-        <composite:attribute name="cancelarAction" method-signature="void cancelarAction()"/>
-        <composite:attribute name="salvarAction" method-signature="void salvarAction()"/>
-        <composite:attribute name="novoAction" method-signature="void novoAction()"/>
+        <composite:attribute name="novoAction" method-signature="void novoAction()" required="true"/>
+        <composite:attribute name="pesquisarAction" method-signature="void pesquisarAction()"/>
+        <composite:attribute name="retornoPesquisarAction" method-signature="void retornoPesquisarAction()" required="#{cc.attrs.pesquisarAction ne null}"/>
+        <composite:attribute name="salvarAction" method-signature="void salvarAction()" required="true"/>
+        <composite:attribute name="cancelarAction" method-signature="void cancelarAction()" required="true"/>
+        <composite:attribute name="excluirAction" method-signature="void excluirAction()" required="true"/>
     </composite:interface>
     
     <composite:implementation>  
         <h:outputScript library="js" name="rolarTopo.js"/>
+
+        <p:remoteCommand name="#{cc.id}" action="#{cc.attrs.retornoPesquisarAction}" oncomplete="rolarTopo()" update="@form" />
         
         <p:panelGrid columns="1">
             <p:toolbar>
                 <p:toolbarGroup>
                     <p:commandButton value="Novo" actionListener="#{cc.attrs.novoAction}" update="growl form" oncomplete="rolarTopo()" icon="pi pi-plus"/>
                     <p:spacer width="10"/>
+
+                    <p:commandButton value="Pesquisar" action="#{cc.attrs.pesquisarAction}" immediate="true" rendered="#{cc.attrs.pesquisarAction ne null}" icon="pi pi-search" >
+                        <p:ajax event="dialogReturn" listener="#{buscaBean.resultadoPesquisaInputConverter}" oncomplete="#{cc.id}()"/>
+                    </p:commandButton>
+                    <p:spacer width="10" rendered="#{cc.attrs.pesquisarAction ne null}"/>
 
                     <p:commandButton value="Salvar" actionListener="#{cc.attrs.salvarAction}" update="growl form" oncomplete="rolarTopo()" icon="pi pi-save"/>
                     <p:spacer width="10"/>

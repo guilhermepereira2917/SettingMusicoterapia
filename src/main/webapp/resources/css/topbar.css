@@ -1,7 +1,7 @@
 .topbar {
     position: sticky !important;
     top: 0 !important;
-    z-index: 1 !important;
+    z-index: 2 !important;
 
     width: 100%;
 

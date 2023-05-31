@@ -2,7 +2,6 @@ package beans.cadastros;
 
 import beans.BuscaBean;
 import beans.GenericBean;
-import entities.Paciente;
 import entities.Profissional;
 import entities.Profissao;
 import jakarta.annotation.PostConstruct;
@@ -16,11 +15,7 @@ public class ProfissionalBean extends GenericBean<Profissional> {
 
     @PostConstruct
     public void init() {
-        objetoCrud = null;
-
-        if (objetoCrud == null) {
-            objetoCrud = new Profissional();
-        }
+        novo();
     }
 
     @Override
@@ -36,6 +31,10 @@ public class ProfissionalBean extends GenericBean<Profissional> {
         }
 
         return true;
+    }
+
+    public void selecionarProfissional() {
+        objetoCrud = buscaBean.getResultadoPesquisa(Profissional.class);
     }
 
     public Profissional getProfissional() {

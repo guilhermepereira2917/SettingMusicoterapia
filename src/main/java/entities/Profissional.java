@@ -12,7 +12,6 @@ public class Profissional implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
     @Column(name = "nome", length = 50, nullable = false)
     private String nome;
 
