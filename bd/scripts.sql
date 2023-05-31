@@ -580,6 +580,52 @@ CREATE TABLE IF NOT EXISTS `SettingMusicoterapia`.`Profissional` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `SettingMusicoterapia`.`Convenio`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `SettingMusicoterapia`.`Convenio` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `SettingMusicoterapia`.`Tratamento`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `SettingMusicoterapia`.`Tratamento` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `idPaciente` INT NOT NULL,
+  `idProfissional` INT NOT NULL,
+  `inicioVigencia` DATE NOT NULL,
+  `finalVigencia` DATE NOT NULL,
+  `duracaoMinutosSessao` INT NOT NULL,
+  `frequenciaSessaoDias` INT NOT NULL,
+  `idConvenio` INT NULL,
+  `valor` DECIMAL(15,2) NOT NULL,
+  `observacoes` TINYTEXT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_Tratamento_Convenio1_idx` (`idConvenio` ASC) VISIBLE,
+  INDEX `fk_Tratamento_Profissional1_idx` (`idProfissional` ASC) VISIBLE,
+  INDEX `fk_Tratamento_Paciente1_idx` (`idPaciente` ASC) VISIBLE,
+  CONSTRAINT `fk_Tratamento_Convenio1`
+    FOREIGN KEY (`idConvenio`)
+    REFERENCES `SettingMusicoterapia`.`Convenio` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Tratamento_Profissional1`
+    FOREIGN KEY (`idProfissional`)
+    REFERENCES `SettingMusicoterapia`.`Profissional` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Tratamento_Paciente1`
+    FOREIGN KEY (`idPaciente`)
+    REFERENCES `SettingMusicoterapia`.`Paciente` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
