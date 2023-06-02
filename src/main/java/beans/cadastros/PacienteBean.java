@@ -1,16 +1,8 @@
 package beans.cadastros;
 
 import beans.BuscaBean;
-import beans.EntityManager;
 import beans.GenericBean;
-import entities.Cidade;
-import entities.Familiar;
-import entities.FamiliarPaciente;
-import entities.Paciente;
-import entities.Pais;
-import entities.Profissao;
-import entities.Religiao;
-import entities.TelefonePaciente;
+import entities.*;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -25,7 +17,11 @@ public class PacienteBean extends GenericBean<Paciente> {
     @Inject
     private BuscaBean buscaBean;
 
+    @Inject
+    private TratamentoBean tratamentoBean;
+
     @PostConstruct
+    @Override
     public void init() {
         Paciente pacienteSelecionado = buscaBean.getResultadoPesquisa(Paciente.class);
 
@@ -33,6 +29,17 @@ public class PacienteBean extends GenericBean<Paciente> {
             objetoCrud = new Paciente();
         } else {
             objetoCrud = pacienteSelecionado;
+        }
+
+        atualizaTratamentoBeanComUltimoTratamento();
+    }
+
+    private void atualizaTratamentoBeanComUltimoTratamento() {
+        if (objetoCrud.getTratamentos().isEmpty()) {
+            tratamentoBean.setTratamento(null);
+        } else {
+            Tratamento ultimoTratamentoPaciente = objetoCrud.getTratamentos().get(objetoCrud.getTratamentos().size() - 1);
+            tratamentoBean.setTratamento(ultimoTratamentoPaciente);
         }
     }
 
@@ -42,9 +49,20 @@ public class PacienteBean extends GenericBean<Paciente> {
     }
 
     @Override
+    public void salvar() {
+        super.salvar();
+
+        atualizaTratamentoBeanComUltimoTratamento();
+    }
+
+    @Override
     public boolean validar(Paciente paciente) {
         if (paciente.getPrematuro() && (paciente.getSemanasPrematuro() == null || paciente.getSemanasPrematuro() <= 0)) {
             JSFUtils.mensagemErro("Paciente prematuro sem quantidade de semanas prematuro informado!");
+            return false;
+        }
+
+        if (tratamentoBean.getTratamento() != null && !tratamentoBean.validar(tratamentoBean.getTratamento())) {
             return false;
         }
 
@@ -145,11 +163,34 @@ public class PacienteBean extends GenericBean<Paciente> {
         JSFUtils.mensagemSucesso("Telefone removido com sucesso!");
     }
 
+    public void adicionaTratamento() {
+        if (!objetoCrud.getTratamentos().isEmpty()) {
+            JSFUtils.mensagemErro("Paciente já possui um tratamento!");
+            return;
+        }
+
+        this.tratamentoBean.novo();
+        this.tratamentoBean.getTratamento().setPaciente(this.objetoCrud);
+        this.objetoCrud.getTratamentos().add(tratamentoBean.getTratamento());
+    }
+
+    public void selecionarTratamentoEdicao(SelectEvent<Tratamento> event) {
+        this.tratamentoBean.setTratamento(event.getObject());
+    }
+
     public Paciente getPaciente() {
         return objetoCrud;
     }
 
     public void setPaciente(Paciente paciente) {
         objetoCrud = paciente;
+    }
+
+    public TratamentoBean getTratamentoBean() {
+        return tratamentoBean;
+    }
+
+    public void setTratamentoBean(TratamentoBean tratamentoBean) {
+        this.tratamentoBean = tratamentoBean;
     }
 }

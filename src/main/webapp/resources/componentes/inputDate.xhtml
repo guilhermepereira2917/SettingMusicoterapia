@@ -8,8 +8,8 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <composite:interface>
+        <composite:attribute name="inputValue" required="true"/>
         <composite:attribute name="labelValue" required="true"/>
-        <composite:attribute name="inputValue" required="true"/>  
         
         <composite:attribute name="required" default="false"/>
         <composite:attribute name="requiredMessage" required="#{cc.attrs.required}" default="#{null}"/>

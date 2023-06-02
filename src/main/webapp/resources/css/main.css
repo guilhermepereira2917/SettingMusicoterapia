@@ -68,7 +68,12 @@ td.ui-panelgrid-cell {
     width: 8rem !important;
 }
 
-.tira-padding > * > * > * {
+.column-codigo {
+    width: 100px;
+    text-align: center;
+}
+
+.panelgrid-no-padding > * > * > * {
     padding: 0px !important;
 }
 

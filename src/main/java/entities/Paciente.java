@@ -160,7 +160,10 @@ public class Paciente implements Serializable {
     private String observacoesHistoricoDesenvolvimento;
 
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FamiliarPaciente> familiares = new ArrayList();
+    private List<FamiliarPaciente> familiares = new ArrayList<>();
+
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Tratamento> tratamentos = new ArrayList<>();
 
     @Column(name = "email", length = 50)
     private String email;
@@ -518,6 +521,14 @@ public class Paciente implements Serializable {
 
     public void setFamiliares(List<FamiliarPaciente> familiares) {
         this.familiares = familiares;
+    }
+
+    public List<Tratamento> getTratamentos() {
+        return tratamentos;
+    }
+
+    public void setTratamentos(List<Tratamento> tratamentos) {
+        this.tratamentos = tratamentos;
     }
 
     public String getObservacoesHistoricoDesenvolvimento() {

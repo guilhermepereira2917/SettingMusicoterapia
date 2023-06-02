@@ -17,12 +17,10 @@ public class FamiliarPaciente implements Serializable {
     private FamiliarPacientePK id;
     
     @ManyToOne
-    @MapsId("idPaciente")
     @JoinColumn(name = "idPaciente", referencedColumnName = "id")
     private Paciente paciente;
     
     @ManyToOne
-    @MapsId("idFamiliar")
     @JoinColumn(name = "idFamiliar", referencedColumnName = "id")
     private Familiar familiar;
     

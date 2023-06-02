@@ -599,7 +599,7 @@ CREATE TABLE IF NOT EXISTS `SettingMusicoterapia`.`Tratamento` (
   `idPaciente` INT NOT NULL,
   `idProfissional` INT NOT NULL,
   `inicioVigencia` DATE NOT NULL,
-  `finalVigencia` DATE NOT NULL,
+  `finalVigencia` DATE,
   `duracaoMinutosSessao` INT NOT NULL,
   `frequenciaSessaoDias` INT NOT NULL,
   `idConvenio` INT NULL,

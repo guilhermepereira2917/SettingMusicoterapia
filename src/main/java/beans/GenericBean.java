@@ -2,7 +2,9 @@ package beans;
 
 import java.io.Serializable;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
+import jakarta.ejb.Init;
 import jakarta.inject.Inject;
 import utils.JSFUtils;
 
@@ -15,6 +17,11 @@ public abstract class GenericBean<T> implements Serializable {
     protected BuscaBean buscaBean;
 
     protected T objetoCrud;
+
+    @PostConstruct
+    public void init() {
+        novo();
+    }
 
     public abstract void novo();
 

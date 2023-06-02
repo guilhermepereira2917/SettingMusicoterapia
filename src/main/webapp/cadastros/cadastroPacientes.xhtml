@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"          
       xmlns:custom = "http://java.sun.com/jsf/composite/componentes">
@@ -18,7 +19,7 @@
                     <p:tab title="Dados Gerais">
                         <p:panel header="Dados Pessoais">
                             <p:panelGrid columns="2" layout="grid">
-                                <p:panelGrid columns="2" styleClass="tira-padding" layout="grid">
+                                <p:panelGrid columns="2" styleClass="panelgrid-no-padding" layout="grid">
                                     <custom:outputText labelValue="Código" inputStyleClass="output-codigo" inputValue="#{pacienteBean.paciente.id}"/>
 
                                     <p:panelGrid columns="1">
@@ -32,7 +33,7 @@
                                 <custom:inputText labelValue="Nome Completo" inputValue="#{pacienteBean.paciente.nome}" required="true" requiredMessage="Nome do Paciente é obrigatório!"/>                            
                                 <custom:inputText labelValue="Apelido" inputValue="#{pacienteBean.paciente.apelido}" />
 
-                                <p:panelGrid columns="2" styleClass="tira-padding" layout="grid">
+                                <p:panelGrid columns="2" styleClass="panelgrid-no-padding" layout="grid">
                                     <custom:inputDate labelValue="Data Nascimento" inputValue="#{pacienteBean.paciente.dataNascimento}" />
 
                                     <custom:outputText labelValue="Idade" inputValue="#{pacienteBean.paciente.idade}"/>
@@ -52,7 +53,7 @@
                                         <p:ajax process="panelPrematuro" update="panelPrematuro" onstart="#{pacienteBean.limpaSemanasPrematuro()}"/>
                                     </p:selectBooleanCheckbox>
 
-                                    <p:panelGrid columns="2" styleClass="tira-padding" layout="grid" columnClasses="ui-lg-3, ui-lg-9">
+                                    <p:panelGrid columns="2" styleClass="panelgrid-no-padding" layout="grid" columnClasses="ui-lg-3, ui-lg-9">
                                         <p:outputLabel for="@next" value="Semanas Prematuro:"/>
                                         <p:inputText type="number" value="#{pacienteBean.paciente.semanasPrematuro}" readonly="#{not pacienteBean.paciente.prematuro}" disabled="#{not pacienteBean.paciente.prematuro}"/> 
                                     </p:panelGrid>
@@ -71,7 +72,7 @@
                                     />
 
                                 <custom:inputConverter 
-                                    labelValue="Cidade"                                
+                                    labelValue="Cidade de Naturalidade"
 
                                     inputObject="#{pacienteBean.paciente.cidadeNaturalidade}"
                                     inputId="#{pacienteBean.paciente.cidadeNaturalidade.id}"
@@ -252,6 +253,111 @@
                                     <p:inputTextarea value="#{pacienteBean.paciente.observacoesHistoricoDesenvolvimento}" rows="5" counter="contadorHistoricoDesenvolvimento" maxlength="255" counterTemplate="{0} caracteres restantes."/>
                                     <h:outputText id="contadorHistoricoDesenvolvimento" />
                                 </p:panelGrid>
+                            </p:panelGrid>
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab title="Tratamento" id="tabTratamento">
+                        <p:panel header="Tratamentos do Paciente" id="panelTratamentos">
+                            <p:dataTable value="#{pacienteBean.paciente.tratamentos}" var="tratamento"
+                                         selectionMode="single" rowKey="#{tratamento.id}"
+                                         id="dataTableTratamentos" allowUnsorting="true"
+                                         emptyMessage="Nenhum tratamento encontrado para o paciente.">
+
+                                <p:ajax event="rowSelect" listener="#{pacienteBean.selecionarTratamentoEdicao}" update=":form:tab:panelInformacoesTratamento"/>
+
+                                <p:column headerText="Código" sortBy="#{tratamento.id}" styleClass="column-codigo">
+                                    <h:outputText value="#{tratamento.id}" />
+                                </p:column>
+
+                                <p:column headerText="Vigência Inicial" sortBy="#{tratamento.inicioVigencia}">
+                                    <h:outputText value="#{tratamento.inicioVigencia}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Vigência Final">
+                                    <h:outputText value="#{tratamento.finalVigencia}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Profissional Responsável">
+                                    <h:outputText value="#{tratamento.profissional.nome}" />
+                                </p:column>
+
+                                <p:column headerText="Frequência Sessões (dias)">
+                                    <h:outputText value="#{tratamento.frequenciaSessaoDias}"/>
+                                </p:column>
+
+                                <p:column headerText="Duração Sessões (minutos)">
+                                    <h:outputText value="#{tratamento.duracaoMinutosSessao}"/>
+                                </p:column>
+
+                                <p:column headerText="Valor">
+                                    <h:outputText value="#{tratamento.valor}" >
+                                        <f:convertNumber type="currency" currencySymbol="R$"/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <f:facet name="footer">
+                                    <p:commandButton value="Adicionar Tratamento"
+                                                     actionListener="#{pacienteBean.adicionaTratamento}"
+                                                     update=":form:tab:panelInformacoesTratamento :form:tab:panelTratamentos growl"
+                                                     icon="pi pi-plus"/>
+                                </f:facet>
+                            </p:dataTable>
+                        </p:panel>
+
+                        <br />
+
+                        <p:panel header="Informações Tratamento" id="panelInformacoesTratamento">
+                            <p:panelGrid columns="2" layout="grid" id="panelGridInformacoesTratamento" rendered="#{pacienteBean.tratamentoBean.tratamento ne null}">
+                                <custom:outputText inputValue="#{pacienteBean.tratamentoBean.tratamento.id}" labelValue="Código" inputStyleClass="output-codigo"/>
+                                <br/>
+
+                                <p:panelGrid columns="2" layout="grid" styleClass="panelgrid-no-padding">
+                                    <custom:inputDate
+                                            inputValue="#{pacienteBean.tratamentoBean.tratamento.inicioVigencia}"
+                                            labelValue="Vigência Inicial"
+                                            required="true"
+                                            requiredMessage="Informe a vigência inicial do tratamento!"/>
+                                    <custom:inputDate
+                                            inputValue="#{pacienteBean.tratamentoBean.tratamento.finalVigencia}"
+                                            labelValue="Vigência Final"/>
+                                </p:panelGrid>
+
+                                <custom:inputConverter
+                                        labelValue="Profissional Responsável"
+                                        inputObject="#{pacienteBean.tratamentoBean.tratamento.profissional}"
+                                        inputId="#{pacienteBean.tratamentoBean.tratamento.profissional.id}"
+                                        inputValue="#{pacienteBean.tratamentoBean.tratamento.profissional.nome}"
+                                        buscaAction="#{buscaBean.abrirBuscaProfissionais()}"
+                                        retornoAction="#{pacienteBean.tratamentoBean.selecionaProfissionalTratamento()}"
+                                        limpaAction="#{pacienteBean.limpaProfissionalTratamento}"
+                                />
+
+                                <p:panelGrid columns="2" layout="grid" styleClass="panelgrid-no-padding">
+                                    <custom:inputNumber
+                                            inputValue="#{pacienteBean.tratamentoBean.tratamento.frequenciaSessaoDias}"
+                                            labelValue="Frequência Sessões (dias)"
+                                            required="true"
+                                            requiredMessage="Informe a frequência das sessões do tratamento!"/>
+
+                                    <custom:inputNumber
+                                            inputValue="#{pacienteBean.tratamentoBean.tratamento.duracaoMinutosSessao}"
+                                            labelValue="Duração Sessões (minutos)"
+                                            required="true"
+                                            requiredMessage="Informe a duração das sessões do tratamento!"/>
+                                </p:panelGrid>
+
+                                <custom:inputMask
+                                        labelValue="Valor"
+                                        inputValue="#{pacienteBean.tratamentoBean.tratamento.valor}"
+                                        required="true"
+                                        converter="#{bigDecimalConverter}"
+                                        mask="R$ 999,99"
+                                        requiredMessage="Informe o valor do tratamento!"/>
                             </p:panelGrid>
                         </p:panel>
                     </p:tab>
