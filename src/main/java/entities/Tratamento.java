@@ -30,6 +30,10 @@ public class Tratamento implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date finalVigencia;
 
+    @Column(name = "horarioSessao")
+    @Temporal(TemporalType.TIME)
+    private Date horarioSessao;
+
     @Column(name = "duracaoMinutosSessao", nullable = false)
     private Integer duracaoMinutosSessao;
 
@@ -80,6 +84,14 @@ public class Tratamento implements Serializable {
 
     public void setFinalVigencia(Date finalVigencia) {
         this.finalVigencia = finalVigencia;
+    }
+
+    public Date getHorarioSessao() {
+        return horarioSessao;
+    }
+
+    public void setHorarioSessao(Date horarioSessao) {
+        this.horarioSessao = horarioSessao;
     }
 
     public Integer getDuracaoMinutosSessao() {

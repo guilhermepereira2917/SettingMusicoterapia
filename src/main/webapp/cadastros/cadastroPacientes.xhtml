@@ -282,6 +282,12 @@
                                     </h:outputText>
                                 </p:column>
 
+                                <p:column headerText="Horário Sessões">
+                                    <h:outputText value="#{tratamento.horarioSessao}">
+                                        <f:convertDateTime pattern="HH:mm" timeZone="GMT-3"/>
+                                    </h:outputText>
+                                </p:column>
+
                                 <p:column headerText="Profissional Responsável">
                                     <h:outputText value="#{tratamento.profissional.nome}" />
                                 </p:column>
@@ -316,15 +322,22 @@
                                 <custom:outputText inputValue="#{pacienteBean.tratamentoBean.tratamento.id}" labelValue="Código" inputStyleClass="output-codigo"/>
                                 <br/>
 
-                                <p:panelGrid columns="2" layout="grid" styleClass="panelgrid-no-padding">
+                                <p:panelGrid columns="3" layout="grid" styleClass="panelgrid-no-padding">
                                     <custom:inputDate
                                             inputValue="#{pacienteBean.tratamentoBean.tratamento.inicioVigencia}"
                                             labelValue="Vigência Inicial"
                                             required="true"
                                             requiredMessage="Informe a vigência inicial do tratamento!"/>
+
                                     <custom:inputDate
                                             inputValue="#{pacienteBean.tratamentoBean.tratamento.finalVigencia}"
                                             labelValue="Vigência Final"/>
+
+                                    <custom:inputTime
+                                            inputValue="#{pacienteBean.tratamentoBean.tratamento.horarioSessao}"
+                                            labelValue="Horário das Sessões"
+                                            required="true"
+                                            requiredMessage="Informe o horário da sessão!"/>
                                 </p:panelGrid>
 
                                 <custom:inputConverter
