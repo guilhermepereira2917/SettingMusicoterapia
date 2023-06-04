@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:custom="http://java.sun.com/jsf/composite/componentes">
+
+<ui:composition template="/templates/pagina.xhtml">
+    <ui:define name="title">
+        Processamento de Tratamentos - Setting de Musicoterapia
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:panel header="Processamento de Tratamentos">
+                <p:panel header="Configurações de Processamento">
+                    <p:panelGrid columns="2" layout="grid">
+                        <p:panelGrid columns="2" layout="grid" styleClass="panelgrid-no-padding">
+                            <custom:inputDate inputValue="#{movimentoConsultasBean.filtrosTratamento.periodoInicial}"
+                                              labelValue="Período Inicial"
+                                              required="true"
+                                              requiredMessage="Informe o período inicial a processar os tratamentos!"/>
+
+                            <custom:inputDate inputValue="#{movimentoConsultasBean.filtrosTratamento.periodoFinal}"
+                                              labelValue="Período Final"
+                                              required="true"
+                                              requiredMessage="Informe o período final a processar os tratamentos!"/>
+                        </p:panelGrid>
+                    </p:panelGrid>
+                </p:panel>
+
+                <p:spacer width="16"/>
+
+                <p:panel styleClass="button-group">
+                    <p:commandButton value="Limpar Filtros" icon="pi pi-ban" styleClass="ui-button-warning"
+                                     action="#{movimentoConsultasBean.filtrosTratamento.limparFiltros()}"
+                                     immediate="true" update="form"/>
+                    <p:spacer width="10"/>
+
+                    <p:commandButton value="Processar Tratamentos" icon="pi pi-cog"
+                                     action="#{movimentoConsultasBean.processarTratamentos()}" update="form growl">
+                        <p:confirm header="Confirmação"
+                                   message="Tem certeza que deseja processar os tratamentos com os filtros selecionados?"
+                                   icon="pi pi-info-circle" type=""/>
+                    </p:commandButton>
+                </p:panel>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

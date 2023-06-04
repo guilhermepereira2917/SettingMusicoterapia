@@ -2,8 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns = "http://www.w3.org/1999/xhtml"
-      xmlns:composite = "http://java.sun.com/jsf/composite"
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
@@ -17,8 +17,9 @@
 
 <composite:implementation>
     <p:panelGrid columns="1">
-        <p:outputLabel for="@next" value="#{cc.attrs.labelValue}" />
-        <p:inputMask value="#{cc.attrs.inputValue}" mask="99:99" required="#{cc.attrs.required}" requiredMessage="#{cc.attrs.requiredMessage}">
+        <p:outputLabel for="@next" value="#{cc.attrs.labelValue}"/>
+        <p:inputMask value="#{cc.attrs.inputValue}" mask="99:99" required="#{cc.attrs.required}"
+                     requiredMessage="#{cc.attrs.requiredMessage}">
             <f:convertDateTime pattern="HH:mm" timeZone="GMT-3"/>
         </p:inputMask>
     </p:panelGrid>

@@ -627,6 +627,26 @@ CREATE TABLE IF NOT EXISTS `SettingMusicoterapia`.`Tratamento` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `SettingMusicoterapia`.`Consulta`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `SettingMusicoterapia`.`Consulta` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `idTratamento` INT NOT NULL,
+  `data` DATE NOT NULL,
+  `horarioInicio` TIME NOT NULL,
+  `horarioTermino` TIME NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_Consulta_Tratamento1_idx` (`idTratamento` ASC) VISIBLE,
+  CONSTRAINT `fk_Consulta_Tratamento1`
+    FOREIGN KEY (`idTratamento`)
+    REFERENCES `SettingMusicoterapia`.`Tratamento` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
