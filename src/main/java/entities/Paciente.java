@@ -193,6 +193,10 @@ public class Paciente implements Serializable {
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TelefonePaciente> telefones = new ArrayList();
 
+    public String getCodigoNomeFormatado() {
+        return String.format("%d - %s", id, nome);
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;
@@ -514,6 +518,7 @@ public class Paciente implements Serializable {
     public void setReligiao(Religiao religiao) {
         this.religiao = religiao;
     }
+
 
     public List<FamiliarPaciente> getFamiliares() {
         return familiares;

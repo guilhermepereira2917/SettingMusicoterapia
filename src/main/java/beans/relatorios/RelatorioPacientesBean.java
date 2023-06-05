@@ -75,8 +75,7 @@ public class RelatorioPacientesBean extends GenericRelatorioBean<Paciente> imple
         }
 
         if (filtrosPaciente.getPacientesSelecionados().size() == 1) {
-            Paciente pacienteSelecionado = filtrosPaciente.getPacientesSelecionados().get(0);
-            return pacienteSelecionado.getId().toString() + " - " + pacienteSelecionado.getNome();
+            return filtrosPaciente.getPacientesSelecionados().get(0).getCodigoNomeFormatado();
         } else {
             return filtrosPaciente.getPacientesSelecionados().size() + " pacientes selecionados";
         }

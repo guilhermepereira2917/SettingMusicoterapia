@@ -1,5 +1,7 @@
 package beans;
 
+import utils.DateUtils;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -103,13 +105,31 @@ public abstract class FiltrosService {
         stringBuilder.append(camposIn);
     }
 
+    protected void processaFiltroBetween(String prefixo, Date periodoInicial, Date periodoFinal, String campo) {
+        if (periodoInicial == null || periodoFinal == null) {
+            return;
+        }
+
+        String periodoInicialFormatado = DateUtils.getDataFormatadaJPQL(periodoInicial);
+        String periodoFinalFormatado = DateUtils.getDataFormatadaJPQL(periodoFinal);
+
+        stringBuilder.append(getWhereOuAnd());
+        stringBuilder.append(prefixo);
+        stringBuilder.append(".");
+        stringBuilder.append(campo);
+        stringBuilder.append(" between ");
+        stringBuilder.append(periodoInicialFormatado);
+        stringBuilder.append(" and ");
+        stringBuilder.append(periodoFinalFormatado);
+    }
+
     protected void processaFiltroVigencia(String prefixo, Date periodoInicial, Date periodoFinal, String primeiroCampo, String segundoCampo) {
         if (periodoInicial == null || periodoFinal == null) {
             return;
         }
 
-        String periodoInicialFormatado = getDataJPQL(periodoInicial);
-        String periodoFinalFormatado = getDataJPQL(periodoFinal);
+        String periodoInicialFormatado = DateUtils.getDataFormatadaJPQL(periodoInicial);
+        String periodoFinalFormatado = DateUtils.getDataFormatadaJPQL(periodoFinal);
 
         stringBuilder.append(getWhereOuAnd());
         stringBuilder.append(" (");
@@ -121,11 +141,6 @@ public abstract class FiltrosService {
         processaClausulaVigencia(prefixo, periodoInicialFormatado, periodoFinalFormatado, primeiroCampo, segundoCampo);
 
         stringBuilder.append(")");
-    }
-
-    private String getDataJPQL(Date data) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return String.format("{d '%s'}", simpleDateFormat.format(data));
     }
 
     private void processaClausulaVigencia(String prefixo, String dataFormatada, String primeiroCampo, String segundoCampo) {
@@ -165,13 +180,23 @@ public abstract class FiltrosService {
         stringBuilder.append(")");
     }
 
-    protected <T> void adicionaOrdenacao(String prefixo, String campo) {
+    protected void adicionaOrdenacao(String prefixo, String campo) {
         if (campo == null || campo.isBlank()) {
             return;
         }
 
-        stringBuilder.append(" order by ").append(prefixo);
+        stringBuilder.append(" order by ");
+        stringBuilder.append(prefixo);
         stringBuilder.append(".");
         stringBuilder.append(campo);
+    }
+
+    protected void adicionaOrdenacao(String campos) {
+        if (campos == null || campos.isBlank()) {
+            return;
+        }
+
+        stringBuilder.append(" order by ");
+        stringBuilder.append(campos);
     }
 }

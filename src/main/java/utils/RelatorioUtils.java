@@ -1,15 +1,12 @@
 package utils;
 
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.Phrase;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import java.time.format.DateTimeFormatter;
 
 public abstract class RelatorioUtils {
 
-    public final static BaseColor corCabecalho = new BaseColor(133, 197, 91);
+    public final static BaseColor corCabecalho = new BaseColor(157, 220, 115);
     public final static BaseColor corCelulaPar = new BaseColor(246, 255, 240);
     public final static BaseColor corCelulaImpar = new BaseColor(223, 247, 207);
 
@@ -23,6 +20,7 @@ public abstract class RelatorioUtils {
         PdfPCell celula = new PdfPCell(new Phrase(texto, fonte));       
         
         celula.setHorizontalAlignment(alinhamento);
+        celula.setVerticalAlignment(Element.ALIGN_MIDDLE);
         celula.setBackgroundColor(cor);
         celula.setBorder(0);
         celula.setPaddingTop(4f);

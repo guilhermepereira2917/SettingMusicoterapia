@@ -1,7 +1,5 @@
 package converter;
 
-import jakarta.ejb.Local;
-import jakarta.ejb.LocalBean;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
@@ -10,7 +8,6 @@ import jakarta.faces.convert.FacesConverter;
 import jakarta.inject.Named;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
