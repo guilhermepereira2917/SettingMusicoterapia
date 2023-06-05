@@ -47,6 +47,20 @@ public abstract class FiltrosService {
         stringBuilder.append(inteiro);
     }
 
+    protected void processaFiltroString(String prefixo, String string, String campo) {
+        if (string == null) {
+            return;
+        }
+
+        stringBuilder.append(getWhereOuAnd());
+        stringBuilder.append(prefixo);
+        stringBuilder.append(".");
+        stringBuilder.append(campo);
+        stringBuilder.append(" = '");
+        stringBuilder.append(string);
+        stringBuilder.append("'");
+    }
+
     protected void processaFiltroLike(String prefixo, String string, String campo) {
         if (string == null) {
             return;
@@ -61,6 +75,32 @@ public abstract class FiltrosService {
         stringBuilder.append("'%', upper('");
         stringBuilder.append(string);
         stringBuilder.append("'), '%')");
+    }
+
+    protected void processaFiltroBooleano(String prefixo, Boolean booleano, String campo) {
+        if (booleano == null) {
+            return;
+        }
+
+        stringBuilder.append(getWhereOuAnd());
+        stringBuilder.append(prefixo);
+        stringBuilder.append(".");
+        stringBuilder.append(campo);
+        stringBuilder.append(" = ");
+        stringBuilder.append(booleano ? "TRUE" : "FALSE");
+    }
+
+    protected <T> void processaFiltroIn(String prefixo, String camposIn, String campo) {
+        if (camposIn == null || camposIn.isBlank()) {
+            return;
+        }
+
+        stringBuilder.append(getWhereOuAnd());
+        stringBuilder.append(prefixo);
+        stringBuilder.append(".");
+        stringBuilder.append(campo);
+        stringBuilder.append(" IN ");
+        stringBuilder.append(camposIn);
     }
 
     protected void processaFiltroVigencia(String prefixo, Date periodoInicial, Date periodoFinal, String primeiroCampo, String segundoCampo) {
@@ -123,5 +163,15 @@ public abstract class FiltrosService {
         stringBuilder.append(".");
         stringBuilder.append(segundoCampo);
         stringBuilder.append(")");
+    }
+
+    protected <T> void adicionaOrdenacao(String prefixo, String campo) {
+        if (campo == null || campo.isBlank()) {
+            return;
+        }
+
+        stringBuilder.append(" order by ").append(prefixo);
+        stringBuilder.append(".");
+        stringBuilder.append(campo);
     }
 }

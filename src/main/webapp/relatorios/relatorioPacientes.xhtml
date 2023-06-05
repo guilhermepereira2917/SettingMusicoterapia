@@ -1,64 +1,74 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="/templates/pagina.xhtml">        
-        <ui:define name="title">
-            Relatório de Pacientes - Setting de Musicoterapia
-        </ui:define>        
+<ui:composition template="/templates/pagina.xhtml">
+    <ui:define name="title">
+        Relatório de Pacientes - Setting de Musicoterapia
+    </ui:define>
 
-        <ui:define name="content">           
-            <h:form id="form">
-                <p:panel header="Relatório de Pacientes">
-                    <p:panel header="Filtros">
-                        <p:panelGrid columns="2" layout="grid">
-                            <p:panelGrid columns="1">                                                
-                                <p:outputLabel for="@next" value="Paciente(s)"/>            
+    <ui:define name="content">
+        <h:form id="form">
+            <p:panel header="Relatório de Pacientes">
+                <p:panel header="Filtros">
+                    <p:panelGrid columns="2" layout="grid">
+                        <p:panelGrid columns="1">
+                            <p:outputLabel for="@next" value="Paciente(s)"/>
 
-                                <p:panelGrid columns="3" styleClass="ui-inputgroup" id="buscaPacientes">
-                                    <p:inputText value="#{relatorioPacientesBean.descricaoPacientesSelecionados()}" readonly="true"/>
+                            <p:panelGrid columns="3" styleClass="ui-inputgroup" id="buscaPacientes">
+                                <p:inputText value="#{relatorioPacientesBean.descricaoPacientesSelecionados()}"
+                                             readonly="true"/>
 
-                                    <p:commandButton action="#{relatorioPacientesBean.limpaPacientesSelecionados}" rendered="#{not empty relatorioPacientesBean.pacientesSelecionados}" update="buscaPacientes" icon="pi pi-trash" styleClass="ui-button-danger"/>
-                                    <p:commandButton action="#{buscaBean.abrirBuscaPacientes}" icon="pi pi-search" styleClass="ui-button-info" >
-                                        <p:ajax event="dialogReturn" listener="#{relatorioPacientesBean.selecionarPacientes}" process="buscaPacientes" update="buscaPacientes"/>
-                                    </p:commandButton>
-                                </p:panelGrid>
-                            </p:panelGrid>
-
-                            <p:panelGrid columns="1">
-                                <p:outputLabel value="Demonstra somente pacientes:"/>
-                                <p:selectOneRadio value="#{relatorioPacientesBean.filtroInativos}"  >
-                                    <f:selectItem itemLabel="Ativos" itemValue="A" />
-                                    <f:selectItem itemLabel="Inativos" itemValue="I" />
-                                    <f:selectItem itemLabel="Todos" itemValue="T" />                               
-                                </p:selectOneRadio>
+                                <p:commandButton action="#{relatorioPacientesBean.limpaPacientesSelecionados}"
+                                                 rendered="#{not empty relatorioPacientesBean.filtrosPaciente.pacientesSelecionados}"
+                                                 update="buscaPacientes" icon="pi pi-trash"
+                                                 styleClass="ui-button-danger"/>
+                                <p:commandButton action="#{buscaBean.abrirBuscaPacientes}" icon="pi pi-search"
+                                                 styleClass="ui-button-info">
+                                    <p:ajax event="dialogReturn"
+                                            listener="#{relatorioPacientesBean.selecionarPacientes}"
+                                            process="buscaPacientes" update="buscaPacientes"/>
+                                </p:commandButton>
                             </p:panelGrid>
                         </p:panelGrid>
 
                         <p:panelGrid columns="1">
-                            <p:panelGrid columns="1">
-                                <p:outputLabel value="Ordenação:"/>
-                                <p:selectOneMenu value="#{relatorioPacientesBean.ordenacao}"  >
-                                    <f:selectItem itemLabel="Por Código" itemValue="C" />
-                                    <f:selectItem itemLabel="Por Nome" itemValue="N" />                                    
-                                </p:selectOneMenu>
-                            </p:panelGrid>
+                            <p:outputLabel value="Demonstra somente pacientes:"/>
+                            <p:selectOneRadio value="#{relatorioPacientesBean.filtrosPaciente.filtroInativos}">
+                                <f:selectItem itemLabel="Ativos" itemValue="A"/>
+                                <f:selectItem itemLabel="Inativos" itemValue="I"/>
+                                <f:selectItem itemLabel="Todos" itemValue="#{null}"/>
+                            </p:selectOneRadio>
                         </p:panelGrid>
-                    </p:panel>
+                    </p:panelGrid>
 
-                    <p:spacer width="16" />
-
-                    <p:panel styleClass="button-group">
-                        <p:commandButton value="Limpar Filtros" icon="pi pi-ban" styleClass="ui-button-warning" action="#{relatorioPacientesBean.limparFiltros}" update="form"/>
-                        <p:spacer width="10"/>
-                        <p:commandButton value="Visualizar Relatório" icon="pi pi-file-pdf" action="#{relatorioPacientesBean.tirarRelatorio}" update="growl"/>
-                    </p:panel>
+                    <p:panelGrid columns="1">
+                        <p:panelGrid columns="1">
+                            <p:outputLabel value="Ordenação:"/>
+                            <p:selectOneMenu value="#{relatorioPacientesBean.filtrosPaciente.ordenacao}">
+                                <f:selectItem itemLabel="Por Código" itemValue="C"/>
+                                <f:selectItem itemLabel="Por Nome" itemValue="N"/>
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                    </p:panelGrid>
                 </p:panel>
-            </h:form>             
-        </ui:define>
-    </ui:composition>
+
+                <p:spacer width="16"/>
+
+                <p:panel styleClass="button-group">
+                    <p:commandButton value="Limpar Filtros" icon="pi pi-ban" styleClass="ui-button-warning"
+                                     action="#{relatorioPacientesBean.filtrosPaciente.limparFiltros}" update="form"/>
+                    <p:spacer width="10"/>
+                    <p:commandButton value="Visualizar Relatório" icon="pi pi-file-pdf"
+                                     action="#{relatorioPacientesBean.tirarRelatorio()}" update="growl"/>
+                </p:panel>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
 </html>
