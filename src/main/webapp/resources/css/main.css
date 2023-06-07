@@ -60,6 +60,10 @@ td.ui-panelgrid-cell {
     padding-top: 2rem !important;
 }
 
+body .ui-calendar.ui-trigger-calendar input.hasDatepicker {
+    max-width: 70%;
+}
+
 .output-codigo {
     width: 8rem;
 }
