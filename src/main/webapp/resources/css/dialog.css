@@ -18,6 +18,10 @@ body .ui-panelgrid .ui-panelgrid-cell {
     width: auto;
 }
 
+.ui-selection-column {
+    width: 16px;
+}
+
 .toolbar-filtros {
     width: 100%;
 }

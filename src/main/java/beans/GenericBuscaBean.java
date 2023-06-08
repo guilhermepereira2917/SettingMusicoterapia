@@ -16,10 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class GenericBuscaBean<T, S extends GenericService, F extends FiltrosService> implements Serializable {
+
+    @Inject
+    protected BuscaBean buscaBean;
+
     protected List<T> registros = new ArrayList<>();
     protected F filtros;
 
+    protected List<T> registrosSelecionados = new ArrayList<>();
     private boolean multiplaSelecao;
+
+    private final int rowsPadraoDataTable = 7;
 
     @Inject
     protected S service;
@@ -42,6 +49,14 @@ public abstract class GenericBuscaBean<T, S extends GenericService, F extends Fi
     public void limparFiltros() {
         filtros.limparFiltros();
         pesquisar();
+    }
+
+    public void finalizarBuscaMultiplaSelecao() {
+        if (!registrosSelecionados.isEmpty()) {
+            buscaBean.setObjetosSelecionados((List<Object>) registrosSelecionados);
+        }
+
+        buscaBean.finalizarBusca();
     }
 
     protected abstract void iniciaFiltros();
@@ -68,5 +83,17 @@ public abstract class GenericBuscaBean<T, S extends GenericService, F extends Fi
 
     public void setMultiplaSelecao(boolean multiplaSelecao) {
         this.multiplaSelecao = multiplaSelecao;
+    }
+
+    public List<T> getRegistrosSelecionados() {
+        return registrosSelecionados;
+    }
+
+    public void setRegistrosSelecionados(List<T> registrosSelecionados) {
+        this.registrosSelecionados = registrosSelecionados;
+    }
+
+    public int getRowsPadraoDataTable() {
+        return rowsPadraoDataTable;
     }
 }

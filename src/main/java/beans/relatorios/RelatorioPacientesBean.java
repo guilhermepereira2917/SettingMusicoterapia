@@ -50,7 +50,7 @@ public class RelatorioPacientesBean extends GenericRelatorioBean<Paciente> imple
         }
 
         adicionarCelulaLinha(idadePaciente, Element.ALIGN_RIGHT);
-        adicionarCelulaLinha(paciente.getInativo() ? "Inativo" : "Ativo", Element.ALIGN_CENTER);
+        adicionarCelulaLinha(paciente.getSituacao(), Element.ALIGN_CENTER);
     }
 
     @Override

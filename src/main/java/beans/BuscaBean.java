@@ -57,10 +57,11 @@ public class BuscaBean implements Serializable {
     }
 
     private void abrirBusca(BuscaEnum busca, boolean multiplaSelecao) {
+        String stringMultiplaSelecao = String.valueOf(multiplaSelecao);
+        List<String> parametroMultiplaSelecao = List.of(stringMultiplaSelecao);
+
         Map<String, List<String>> parametros = new HashMap<>();
-        if (multiplaSelecao) {
-            parametros.put("multiplaSelecao", List.of("true"));
-        }
+        parametros.put("multiplaSelecao", parametroMultiplaSelecao);
 
         JSFUtils.abreDialog("/buscas/" + busca.getCaminhoMenu(), parametros);
     }
@@ -85,8 +86,8 @@ public class BuscaBean implements Serializable {
         abrirBusca(BuscaEnum.BUSCA_FAMILIARES, false);
     }
 
-    public void abrirBuscaPacientes() {
-        abrirBusca(BuscaEnum.BUSCA_PACIENTES, false);
+    public void abrirBuscaPacientes(boolean multiplaSelecao) {
+        abrirBusca(BuscaEnum.BUSCA_PACIENTES, multiplaSelecao);
     }
 
     public void abrirBuscaProfissionais(boolean multiplaSelecao) {

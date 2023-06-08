@@ -33,4 +33,5 @@ public class BuscaProfissionalBean extends GenericBuscaBean<Profissional, Profis
     public void setFiltrosProfissional(FiltrosProfissional filtrosProfissional) {
         this.filtros = filtrosProfissional;
     }
+
 }

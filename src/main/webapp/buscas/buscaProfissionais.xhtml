@@ -5,7 +5,6 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:custom="http://java.sun.com/jsf/composite/componentes">
 
 <ui:composition template="/templates/dialogBusca.xhtml">
@@ -23,8 +22,9 @@
     </ui:define>
 
     <ui:define name="content">
-        <p:dataTable var="profissional" value="#{buscaProfissionalBean.profissionais}" selectionMode="single"
-                     rowKey="#{profissional.id}" rows="5" paginator="true" paginatorPosition="bottom" id="profissionais">
+        <p:dataTable var="profissional" value="#{buscaProfissionalBean.profissionais}"
+                     rowKey="#{profissional.id}" rows="#{buscaProfissionalBean.rowsPadraoDataTable}" paginator="true"
+                     paginatorPosition="bottom" id="profissionais">
 
             <p:ajax event="rowDblselect" listener="#{buscaBean.finalizarBuscaSelectEvent}"/>
 

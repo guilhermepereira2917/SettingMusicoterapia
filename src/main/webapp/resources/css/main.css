@@ -15,7 +15,7 @@ a {
     width: 100%;
 }
 
-.input-converter > tbody > .ui-widget-content > *:first-child, .input-converter > tbody > .ui-widget-content > *:first-child > * {
+.input-converter-id {
     width: 2.356rem !important;
     text-align: center;
 }
@@ -72,9 +72,18 @@ body .ui-calendar.ui-trigger-calendar input.hasDatepicker {
     width: 8rem !important;
 }
 
-.column-codigo {
+.column-codigo, .column-inteiro {
     width: 100px;
     text-align: center;
+}
+
+.column-data {
+    width: 180px;
+    text-align: center;
+}
+
+.column-pequena {
+    width: 120px;
 }
 
 .panelgrid-no-padding > * > * > * {

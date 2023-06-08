@@ -1,40 +1,53 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns = "http://www.w3.org/1999/xhtml"   
-      xmlns:composite = "http://java.sun.com/jsf/composite"
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
       xmlns:p="http://primefaces.org/ui">
 
-    <composite:interface>
-        <composite:attribute name="labelValue" required="true"/>
+<composite:interface>
+    <composite:attribute name="labelValue" required="true"/>
 
-        <composite:attribute name="inputId" required="true"/>
-        <composite:attribute name="inputValue" required="true"/>
-        <composite:attribute name="inputObject" required="true"/>  
+    <composite:attribute name="isBuscaMultiplaSelecao" required="false" default="false"/>
 
-        <composite:attribute name="limpaAction" method-signature="void limpaAction()" required="true"/>
-        <composite:attribute name="buscaAction" method-signature="void buscaAction()" required="true"/>
-        <composite:attribute name="retornoAction" method-signature="void retornoAction()" required="true"/>
+    <composite:attribute name="inputId" required="#{not cc.attrs.isBuscaMultiplaSelecao}"/>
+    <composite:attribute name="inputValue" required="true"/>
+    <composite:attribute name="inputObject" required="true"/>
 
-        <composite:attribute name="update"/>
-    </composite:interface>
+    <composite:attribute name="limpaAction" method-signature="void limpaAction()" required="true"/>
+    <composite:attribute name="buscaAction" method-signature="void buscaAction()" required="true"/>
+    <composite:attribute name="retornoAction" method-signature="void retornoAction()" required="true"/>
 
-    <composite:implementation>        
-        <p:remoteCommand name="#{cc.id}" action="#{cc.attrs.retornoAction}" immediate="true" update="panelGrid #{cc.attrs.update}" />
+    <composite:attribute name="update"/>
+</composite:interface>
 
-        <p:panelGrid columns="1">                                                
-            <p:outputLabel for="@next" value="#{cc.attrs.labelValue}"/>            
+<composite:implementation>
+    <p:remoteCommand name="#{cc.id}" action="#{cc.attrs.retornoAction}" immediate="true"
+                     update="panelGrid #{cc.attrs.update}"/>
 
-            <p:panelGrid columns="4" styleClass="ui-inputgroup input-converter" id="panelGrid" >
-                <p:inputText value="#{cc.attrs.inputId}" disabled="true" />
-                <p:inputText value="#{cc.attrs.inputValue}" readonly="true" />
+    <p:panelGrid columns="1">
+        <p:outputLabel for="@next" value="#{cc.attrs.labelValue}"/>
 
-                <p:commandButton action="#{cc.attrs.limpaAction}" immediate="true" rendered="#{not empty cc.attrs.inputObject}" update="@parent" icon="pi pi-trash" styleClass="ui-button-danger"/>
-                <p:commandButton action="#{cc.attrs.buscaAction}" immediate="true" icon="pi pi-search" styleClass="ui-button-info" >
-                    <p:ajax event="dialogReturn" listener="#{buscaBean.resultadoPesquisaInputConverter}" oncomplete="#{cc.id}()"/>
-                </p:commandButton>
-            </p:panelGrid>
+        <p:panelGrid columns="#{cc.attrs.isBuscaMultiplaSelecao ? 3 : 4}" styleClass="ui-inputgroup input-converter"
+                     id="panelGrid" columnClasses="#{not cc.attrs.isBuscaMultiplaSelecao ? 'input-converter-id' : ''}">
+
+            <p:inputText value="#{cc.attrs.inputId}" rendered="#{not cc.attrs.isBuscaMultiplaSelecao}" disabled="true"
+                         styleClass="input-converter-id"/>
+
+            <p:inputText value="#{cc.attrs.inputValue}" readonly="true"/>
+
+            <p:commandButton action="#{cc.attrs.limpaAction}" immediate="true"
+                             rendered="#{not empty cc.attrs.inputObject}" update="@parent" icon="pi pi-trash"
+                             styleClass="ui-button-danger"/>
+
+            <p:commandButton action="#{cc.attrs.buscaAction}" immediate="true" icon="pi pi-search"
+                             styleClass="ui-button-info">
+                <p:ajax event="dialogReturn" listener="#{buscaBean.resultadoPesquisaInputConverter}"
+                        oncomplete="#{cc.id}()" disabled="#{cc.attrs.isBuscaMultiplaSelecao}"/>
+                <p:ajax event="dialogReturn" oncomplete="#{cc.id}()" disabled="#{not cc.attrs.isBuscaMultiplaSelecao}"/>
+            </p:commandButton>
         </p:panelGrid>
-    </composite:implementation>
+    </p:panelGrid>
+</composite:implementation>
 </html>

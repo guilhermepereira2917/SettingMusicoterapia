@@ -8,12 +8,18 @@ import java.util.List;
 
 public class FiltrosPaciente extends FiltrosService {
 
+    private Integer codigoPaciente;
+    private String descricaoPaciente;
+
     private List<Paciente> pacientesSelecionados;
+
     private Character filtroInativos;
     private Character ordenacao;
 
     @Override
     protected void processarFiltros(String prefixo) {
+        processaFiltroInteiro(prefixo, codigoPaciente, "id");
+        processaFiltroLike(prefixo, descricaoPaciente, "nome");
         processaFiltroIn(prefixo, SQLUtils.montarFiltroInPacientes(pacientesSelecionados), "id");
 
         if (filtroInativos != null) {
@@ -43,6 +49,22 @@ public class FiltrosPaciente extends FiltrosService {
             default:
                 return null;
         }
+    }
+
+    public Integer getCodigoPaciente() {
+        return codigoPaciente;
+    }
+
+    public void setCodigoPaciente(Integer codigoPaciente) {
+        this.codigoPaciente = codigoPaciente;
+    }
+
+    public String getDescricaoPaciente() {
+        return descricaoPaciente;
+    }
+
+    public void setDescricaoPaciente(String descricaoPaciente) {
+        this.descricaoPaciente = descricaoPaciente;
     }
 
     public List<Paciente> getPacientesSelecionados() {
