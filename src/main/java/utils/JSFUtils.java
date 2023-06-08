@@ -2,6 +2,7 @@ package utils;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -34,13 +35,21 @@ public abstract class JSFUtils {
     }
 
     public static void abreDialog(String dialog) {
+        abreDialog(dialog, null);
+    }
+
+    public static void abreDialog(String dialog, Map<String, List<String>> parametros) {
         Map<String, Object> options = new HashMap<>();
         options.put("modal", true);
         options.put("resizable", true);
         options.put("width", "90vw");
         options.put("contentWidth", "100%");
 
-        PrimeFaces.current().dialog().openDynamic(dialog, options, null);
+        PrimeFaces.current().dialog().openDynamic(dialog, options, parametros);
+    }
+
+    public static String getParam(String param) {
+        return FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("multiplaSelecao");
     }
     
 }

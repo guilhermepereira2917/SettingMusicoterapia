@@ -17,3 +17,7 @@ body .ui-panelgrid .ui-panelgrid-cell {
 .ui-panelgrid-cell, .ui-inputtext, .ui-inputtextarea, .ui-panelgrid, .ui-panelgrid tbody {
     width: auto;
 }
+
+.toolbar-filtros {
+    width: 100%;
+}

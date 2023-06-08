@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>
+        <ui:insert name="title">
+            Busca
+        </ui:insert>
+    </title>
+
+    <h:outputStylesheet library="css" name="main.css" />
+    <h:outputStylesheet library="css" name="dialog.css" />
+</h:head>
+
+<h:body>
+    <p:growl id="growl" showDetail="true" />
+
+    <p:panelGrid columns="1">
+        <h:form id="form">
+            <p:panel header="Filtros" styleClass="panel-filtros">
+                <ui:insert name="filtros"/>
+            </p:panel>
+
+            <p:spacer width="16"/>
+
+            <ui:insert name="content"/>
+
+            <ui:insert name="botoes-acoes"/>
+        </h:form>
+    </p:panelGrid>
+</h:body>
+</html>

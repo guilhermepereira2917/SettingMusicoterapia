@@ -1,7 +1,10 @@
 package beans;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
 import org.primefaces.PrimeFaces;
@@ -53,36 +56,41 @@ public class BuscaBean implements Serializable {
         PrimeFaces.current().dialog().closeDynamic(event.getObject());
     }
 
-    private void abrirBusca(BuscaEnum busca) {
-        JSFUtils.abreDialog("/buscas/" + busca.getCaminhoMenu());
+    private void abrirBusca(BuscaEnum busca, boolean multiplaSelecao) {
+        Map<String, List<String>> parametros = new HashMap<>();
+        if (multiplaSelecao) {
+            parametros.put("multiplaSelecao", List.of("true"));
+        }
+
+        JSFUtils.abreDialog("/buscas/" + busca.getCaminhoMenu(), parametros);
     }
 
     public void abrirBuscaPaises() {
-        abrirBusca(BuscaEnum.BUSCA_PAISES);
+        abrirBusca(BuscaEnum.BUSCA_PAISES, false);
     }
 
     public void abrirBuscaCidades() {
-        abrirBusca(BuscaEnum.BUSCA_CIDADES);
+        abrirBusca(BuscaEnum.BUSCA_CIDADES, false);
     }
 
     public void abrirBuscaProfissoes() {
-        abrirBusca(BuscaEnum.BUSCA_PROFISSOES);
+        abrirBusca(BuscaEnum.BUSCA_PROFISSOES, false);
     }
 
     public void abrirBuscaReligioes() {
-        abrirBusca(BuscaEnum.BUSCA_RELIGIOES);
+        abrirBusca(BuscaEnum.BUSCA_RELIGIOES, false);
     }
 
     public void abrirBuscaFamiliares() {
-        abrirBusca(BuscaEnum.BUSCA_FAMILIARES);
+        abrirBusca(BuscaEnum.BUSCA_FAMILIARES, false);
     }
 
     public void abrirBuscaPacientes() {
-        abrirBusca(BuscaEnum.BUSCA_PACIENTES);
+        abrirBusca(BuscaEnum.BUSCA_PACIENTES, false);
     }
 
-    public void abrirBuscaProfissionais() {
-        abrirBusca(BuscaEnum.BUSCA_PROFISSIONAIS);
+    public void abrirBuscaProfissionais(boolean multiplaSelecao) {
+        abrirBusca(BuscaEnum.BUSCA_PROFISSIONAIS, multiplaSelecao);
     }
 
 }

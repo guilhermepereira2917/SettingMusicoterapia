@@ -1,0 +1,27 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+
+    <composite:interface>
+        <composite:attribute name="beanBusca" type="beans.GenericBuscaBean" required="true"/>
+    </composite:interface>
+
+    <composite:implementation>
+        <p:panelGrid columns="1" styleClass="toolbar-filtros">
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:commandButton value="Limpar Filtros" action="#{cc.attrs.beanBusca.limparFiltros()}"
+                                     process="form" update="form" icon="pi pi-ban" styleClass="ui-button-warning"/>
+                    <p:spacer width="10"/>
+
+                    <p:commandButton value="Pesquisar" action="#{cc.attrs.beanBusca.pesquisar()}"
+                                     process="form" update="form" icon="pi pi-search"/>
+                </p:toolbarGroup>
+            </p:toolbar>
+        </p:panelGrid>
+    </composite:implementation>
+</html>
