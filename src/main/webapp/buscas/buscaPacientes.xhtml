@@ -37,8 +37,8 @@
                      rowKey="#{paciente.id}" rows="#{buscaPacienteBean.rowsPadraoDataTable}" paginator="true"
                      paginatorPosition="bottom" id="pacientes">
 
-            <p:ajax event="rowDblselect" listener="#{buscaPacienteBean.finalizarBuscaMultiplaSelecao()}"/>
-
+            <p:ajax event="rowDblselect" listener="#{buscaPacienteBean.finalizarBuscaMultiplaSelecao()}" disabled="#{not buscaPacienteBean.multiplaSelecao}"/>
+            <p:ajax event="rowDblselect" listener="#{buscaBean.finalizarBuscaSelectEvent}" disabled="#{buscaPacienteBean.multiplaSelecao}"/>
             <p:column selectionMode="multiple" visible="#{buscaPacienteBean.multiplaSelecao}"/>
 
             <p:column headerText="Código" sortBy="#{paciente.id}" styleClass="column-codigo">

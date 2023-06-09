@@ -49,7 +49,7 @@
 
                                 <p:panelGrid columns="1" id="panelPrematuro">
                                     <p:selectBooleanCheckbox value="#{pacienteBean.paciente.prematuro}" itemLabel="Prematuro">
-                                        <p:ajax process="panelPrematuro" update="panelPrematuro" onstart="#{pacienteBean.limpaSemanasPrematuro()}"/>
+                                        <p:ajax process="panelPrematuro" update="panelPrematuro" oncomplete="#{pacienteBean.limpaSemanasPrematuro()}"/>
                                     </p:selectBooleanCheckbox>
 
                                     <p:panelGrid columns="2" styleClass="panelgrid-no-padding" layout="grid" columnClasses="ui-lg-3, ui-lg-9">
@@ -387,11 +387,9 @@
                     </p:tab>
                 </p:tabView>
 
-                <custom:botoesAcoes 
-                    excluirAction="#{pacienteBean.excluir()}"
-                    cancelarAction="#{pacienteBean.cancelar()}"
-                    salvarAction="#{pacienteBean.salvar()}"
-                    novoAction="#{pacienteBean.novo()}"                
+                <custom:botoesAcoesCadastro
+                    beanCadastro="#{pacienteBean}"
+                    pesquisarAction="#{buscaBean.abrirBuscaPacientes(false)}"
                     />
 
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350" styleClass="ui-warning-dialog">

@@ -3,6 +3,7 @@ package beans.cadastros;
 import beans.BuscaBean;
 import beans.GenericBean;
 import entities.Familiar;
+import entities.Paciente;
 import entities.Profissao;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
@@ -10,7 +11,7 @@ import jakarta.inject.Named;
 
 @Named
 @ViewScoped
-public class FamiliarBean extends GenericBean<Familiar> {     
+public class FamiliarBean extends GenericBean<Familiar> {
     
     @PostConstruct
     public void init() {
@@ -25,7 +26,12 @@ public class FamiliarBean extends GenericBean<Familiar> {
     public void novo() {
         objetoCrud = new Familiar();
     }
-    
+
+    @Override
+    public void setObjetoCrudPesquisa() {
+        objetoCrud = buscaBean.getResultadoPesquisa(Familiar.class);
+    }
+
     public Familiar getFamiliar() {
         return this.objetoCrud;
     }

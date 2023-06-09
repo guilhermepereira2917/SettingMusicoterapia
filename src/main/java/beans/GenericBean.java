@@ -25,6 +25,8 @@ public abstract class GenericBean<T> implements Serializable {
 
     public abstract void novo();
 
+    public abstract void setObjetoCrudPesquisa();
+
     public void salvar() {
         if (!validar(objetoCrud)) {
             return;
