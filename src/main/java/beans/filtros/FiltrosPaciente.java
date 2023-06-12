@@ -17,16 +17,16 @@ public class FiltrosPaciente extends FiltrosService {
     private Character ordenacao;
 
     @Override
-    protected void processarFiltros(String prefixo) {
-        processaFiltroInteiro(prefixo, codigoPaciente, "id");
-        processaFiltroLike(prefixo, descricaoPaciente, "nome");
-        processaFiltroIn(prefixo, SQLUtils.montarFiltroInPacientes(pacientesSelecionados), "id");
+    protected void processarFiltros() {
+        processaFiltroInteiro(codigoPaciente, "p.id");
+        processaFiltroLike(descricaoPaciente, "p.nome");
+        processaFiltroIn(SQLUtils.montarFiltroInPacientes(pacientesSelecionados), "p.id");
 
         if (filtroInativos != null) {
-            processaFiltroBooleano(prefixo, filtroInativos == 'I', "inativo");
+            processaFiltroBooleano(filtroInativos == 'I', "p.inativo");
         }
 
-        adicionaOrdenacao(prefixo, getCampoOrderBy());
+        adicionaOrdenacao(getCampoOrderBy());
     }
 
     @Override
@@ -43,9 +43,9 @@ public class FiltrosPaciente extends FiltrosService {
 
         switch (ordenacao) {
             case 'C':
-                return "id";
+                return "p.id";
             case 'N':
-                return "nome";
+                return "p.nome";
             default:
                 return null;
         }

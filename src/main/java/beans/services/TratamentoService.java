@@ -11,11 +11,6 @@ import entities.Tratamento;
 public class TratamentoService extends GenericService<Tratamento, FiltrosTratamento> {
 
     @Override
-    protected String getPrefixo() {
-        return "t";
-    }
-
-    @Override
     protected String getSelect() {
         return "select t from Tratamento t";
     }

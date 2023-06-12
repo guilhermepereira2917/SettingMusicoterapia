@@ -9,9 +9,9 @@ public class FiltrosProfissional extends FiltrosService {
     String descricaoProfissional;
 
     @Override
-    protected void processarFiltros(String prefixo) {
-        processaFiltroInteiro(prefixo, codigoProfissional, "id");
-        processaFiltroLike(prefixo, descricaoProfissional, "nome");
+    protected void processarFiltros() {
+        processaFiltroInteiro(codigoProfissional, "p.id");
+        processaFiltroLike(descricaoProfissional, "p.nome");
     }
 
     @Override

@@ -8,14 +8,14 @@ public abstract class GenericService<T, S extends FiltrosService> {
     protected EntityManager entityManager;
 
     public List<T> retornaRegistrosFiltrados(S filtrosService) {
-        String prefixo = getPrefixo();
-        String filtros = filtrosService.getSqlFiltrada(prefixo);
-
-        String sql = getSelect() + filtros;
+        String sql = getSelectComFiltros(filtrosService);
 
         return entityManager.getEntityManager().createQuery(sql).getResultList();
     }
 
-    protected abstract String getPrefixo();
+    protected String getSelectComFiltros(S filtrosService) {
+        return getSelect() + filtrosService.getSqlFiltrada();
+    }
+
     protected abstract String getSelect();
 }

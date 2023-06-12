@@ -10,8 +10,8 @@ public class FiltrosTratamento extends FiltrosService {
     private Date periodoFinal;
 
     @Override
-    protected void processarFiltros(String prefixo) {
-        processaFiltroVigencia(prefixo, periodoInicial, periodoFinal, "inicioVigencia", "finalVigencia");
+    protected void processarFiltros() {
+        processaFiltroVigenciaData(periodoInicial, periodoFinal, "t.inicioVigencia", "t.finalVigencia");
     }
 
     @Override

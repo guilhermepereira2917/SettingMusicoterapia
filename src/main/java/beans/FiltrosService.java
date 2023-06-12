@@ -2,7 +2,6 @@ package beans;
 
 import utils.DateUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public abstract class FiltrosService {
@@ -14,16 +13,18 @@ public abstract class FiltrosService {
         limparFiltros();
     }
 
-    public String getSqlFiltrada(String prefixo) {
-        stringBuilder.setLength(0);
+    public String getSqlFiltrada() {
         usarWhere = true;
 
-        processarFiltros(prefixo);
+        processarFiltros();
 
-        return stringBuilder.toString();
+        String filtros = stringBuilder.toString();
+        stringBuilder.setLength(0);
+
+        return filtros;
     }
 
-    protected abstract void processarFiltros(String prefixo);
+    protected abstract void processarFiltros();
 
     public abstract void limparFiltros();
 
@@ -36,42 +37,56 @@ public abstract class FiltrosService {
         return " where ";
     }
 
-    protected void processaFiltroInteiro(String prefixo, Integer inteiro, String campo) {
+    protected void adicionarWhereOuAnd() {
+        stringBuilder.append(getWhereOuAnd());
+    }
+
+    protected void adicionarOr() {
+        stringBuilder.append(" or ");
+    }
+
+    protected void abrirParenteses() {
+        stringBuilder.append("(");
+    }
+
+    protected void fecharParenteses() {
+        stringBuilder.append(")");
+    }
+
+    protected void processarFiltro(String filtro) {
+        stringBuilder.append(filtro);
+    }
+
+    protected void processaFiltroInteiro(Integer inteiro, String campo) {
         if (inteiro == null) {
             return;
         }
 
-        stringBuilder.append(getWhereOuAnd());
-        stringBuilder.append(prefixo);
-        stringBuilder.append(".");
+        adicionarWhereOuAnd();
         stringBuilder.append(campo);
         stringBuilder.append(" = ");
         stringBuilder.append(inteiro);
     }
 
-    protected void processaFiltroString(String prefixo, String string, String campo) {
+    protected void processaFiltroString(String string, String campo) {
         if (string == null) {
             return;
         }
 
-        stringBuilder.append(getWhereOuAnd());
-        stringBuilder.append(prefixo);
-        stringBuilder.append(".");
+        adicionarWhereOuAnd();
         stringBuilder.append(campo);
         stringBuilder.append(" = '");
         stringBuilder.append(string);
         stringBuilder.append("'");
     }
 
-    protected void processaFiltroLike(String prefixo, String string, String campo) {
+    protected void processaFiltroLike(String string, String campo) {
         if (string == null) {
             return;
         }
 
-        stringBuilder.append(getWhereOuAnd());
+        adicionarWhereOuAnd();
         stringBuilder.append("upper(");
-        stringBuilder.append(prefixo);
-        stringBuilder.append(".");
         stringBuilder.append(campo);
         stringBuilder.append(") like concat(");
         stringBuilder.append("'%', upper('");
@@ -79,33 +94,54 @@ public abstract class FiltrosService {
         stringBuilder.append("'), '%')");
     }
 
-    protected void processaFiltroBooleano(String prefixo, Boolean booleano, String campo) {
+    protected void processaFiltroBooleano(Boolean booleano, String campo) {
         if (booleano == null) {
             return;
         }
 
-        stringBuilder.append(getWhereOuAnd());
-        stringBuilder.append(prefixo);
-        stringBuilder.append(".");
+        adicionarWhereOuAnd();
         stringBuilder.append(campo);
         stringBuilder.append(" = ");
         stringBuilder.append(booleano ? "TRUE" : "FALSE");
     }
 
-    protected <T> void processaFiltroIn(String prefixo, String camposIn, String campo) {
+    protected void processaFiltroData(Date data, String campo) {
+        if (data == null) {
+            return;
+        }
+
+        adicionarWhereOuAnd();
+        stringBuilder.append(campo);
+        stringBuilder.append(" = ");
+        stringBuilder.append(DateUtils.getDataFormatadaJPQL(data));
+    }
+
+    protected void processaFiltroHorario(Date horario, String campo, boolean colocarAnd) {
+        if (horario == null) {
+            return;
+        }
+
+        if (colocarAnd) {
+            adicionarWhereOuAnd();
+        }
+
+        stringBuilder.append(campo);
+        stringBuilder.append(" = ");
+        stringBuilder.append(DateUtils.getHoraFormatadaJPQL(horario));
+    }
+
+    protected <T> void processaFiltroIn(String camposIn, String campo) {
         if (camposIn == null || camposIn.isBlank()) {
             return;
         }
 
-        stringBuilder.append(getWhereOuAnd());
-        stringBuilder.append(prefixo);
-        stringBuilder.append(".");
+        adicionarWhereOuAnd();
         stringBuilder.append(campo);
         stringBuilder.append(" IN ");
         stringBuilder.append(camposIn);
     }
 
-    protected void processaFiltroBetween(String prefixo, Date periodoInicial, Date periodoFinal, String campo) {
+    protected void processaFiltroBetweenData(Date periodoInicial, Date periodoFinal, String campo) {
         if (periodoInicial == null || periodoFinal == null) {
             return;
         }
@@ -113,9 +149,7 @@ public abstract class FiltrosService {
         String periodoInicialFormatado = DateUtils.getDataFormatadaJPQL(periodoInicial);
         String periodoFinalFormatado = DateUtils.getDataFormatadaJPQL(periodoFinal);
 
-        stringBuilder.append(getWhereOuAnd());
-        stringBuilder.append(prefixo);
-        stringBuilder.append(".");
+        adicionarWhereOuAnd();
         stringBuilder.append(campo);
         stringBuilder.append(" between ");
         stringBuilder.append(periodoInicialFormatado);
@@ -123,7 +157,26 @@ public abstract class FiltrosService {
         stringBuilder.append(periodoFinalFormatado);
     }
 
-    protected void processaFiltroVigencia(String prefixo, Date periodoInicial, Date periodoFinal, String primeiroCampo, String segundoCampo) {
+    protected void processaFiltroBetweenHorario(Date horario, String primeiroCampo, String segundoCampo) {
+        if (horario == null) {
+            return;
+        }
+
+        String horarioFormatado = DateUtils.getHoraFormatadaJPQL(horario);
+
+        processaFiltroBetween(horarioFormatado, primeiroCampo, segundoCampo);
+    }
+
+    protected void processaFiltroBetween(String periodoInicialFormatado, String primeiroCampo, String segundoCampo) {
+        adicionarWhereOuAnd();
+        stringBuilder.append(periodoInicialFormatado);
+        stringBuilder.append(" between ");
+        stringBuilder.append(primeiroCampo);
+        stringBuilder.append(" and ");
+        stringBuilder.append(segundoCampo);
+    }
+
+    protected void processaFiltroVigenciaData(Date periodoInicial, Date periodoFinal, String primeiroCampo, String segundoCampo) {
         if (periodoInicial == null || periodoFinal == null) {
             return;
         }
@@ -131,64 +184,47 @@ public abstract class FiltrosService {
         String periodoInicialFormatado = DateUtils.getDataFormatadaJPQL(periodoInicial);
         String periodoFinalFormatado = DateUtils.getDataFormatadaJPQL(periodoFinal);
 
-        stringBuilder.append(getWhereOuAnd());
+        processaFiltroVigencia(periodoInicialFormatado, periodoFinalFormatado, primeiroCampo, segundoCampo);
+    }
+    
+    protected void processaFiltroVigencia(String periodoInicialFormatado, String periodoFinalFormatado, String primeiroCampo, String segundoCampo) {
+        adicionarWhereOuAnd();
         stringBuilder.append(" (");
 
-        processaClausulaVigencia(prefixo, periodoInicialFormatado, primeiroCampo, segundoCampo);
+        processaClausulaVigencia(periodoInicialFormatado, primeiroCampo, segundoCampo);
         stringBuilder.append(" or ");
-        processaClausulaVigencia(prefixo, periodoFinalFormatado, primeiroCampo, segundoCampo);
+        processaClausulaVigencia(periodoFinalFormatado, primeiroCampo, segundoCampo);
         stringBuilder.append(" or ");
-        processaClausulaVigencia(prefixo, periodoInicialFormatado, periodoFinalFormatado, primeiroCampo, segundoCampo);
+        processaClausulaVigencia(periodoInicialFormatado, periodoFinalFormatado, primeiroCampo, segundoCampo);
 
         stringBuilder.append(")");
     }
 
-    private void processaClausulaVigencia(String prefixo, String dataFormatada, String primeiroCampo, String segundoCampo) {
+    private void processaClausulaVigencia(String dataFormatada, String primeiroCampo, String segundoCampo) {
         stringBuilder.append("(");
-        stringBuilder.append(prefixo);
-        stringBuilder.append(".");
-        stringBuilder.append(primeiroCampo);
-        stringBuilder.append(" >= ");
         stringBuilder.append(dataFormatada);
+        stringBuilder.append(" >= ");
+        stringBuilder.append(primeiroCampo);
         stringBuilder.append(" and (");
-        stringBuilder.append(prefixo);
-        stringBuilder.append(".");
         stringBuilder.append(segundoCampo);
         stringBuilder.append(" is null or ");
         stringBuilder.append(dataFormatada);
         stringBuilder.append(" <= ");
-        stringBuilder.append(prefixo);
-        stringBuilder.append(".");
         stringBuilder.append(segundoCampo);
         stringBuilder.append(")");
         stringBuilder.append(")");
     }
 
-    private void processaClausulaVigencia(String prefixo, String primeiraDataFormatada, String segundaDataFormatada, String primeiroCampo, String segundoCampo) {
+    private void processaClausulaVigencia(String primeiraDataFormatada, String segundaDataFormatada, String primeiroCampo, String segundoCampo) {
         stringBuilder.append("(");
         stringBuilder.append(primeiraDataFormatada);
         stringBuilder.append(" <= ");
-        stringBuilder.append(prefixo);
-        stringBuilder.append(".");
         stringBuilder.append(primeiroCampo);
         stringBuilder.append(" and ");
         stringBuilder.append(segundaDataFormatada);
         stringBuilder.append(" >= ");
-        stringBuilder.append(prefixo);
-        stringBuilder.append(".");
         stringBuilder.append(segundoCampo);
         stringBuilder.append(")");
-    }
-
-    protected void adicionaOrdenacao(String prefixo, String campo) {
-        if (campo == null || campo.isBlank()) {
-            return;
-        }
-
-        stringBuilder.append(" order by ");
-        stringBuilder.append(prefixo);
-        stringBuilder.append(".");
-        stringBuilder.append(campo);
     }
 
     protected void adicionaOrdenacao(String campos) {

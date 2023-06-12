@@ -9,6 +9,7 @@ public abstract class DateUtils {
     private static SimpleDateFormat dataSimpleFormat = new SimpleDateFormat("dd/MM/yyyy");
     private static SimpleDateFormat horarioSimpleFormat = new SimpleDateFormat("HH:mm");
     private static SimpleDateFormat dataJPQLSimpleFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private static SimpleDateFormat horarioJPQLSimpleFormat = new SimpleDateFormat("HH:mm:ss");
 
     public static Integer calculaIdade(Date data) {
         if (data == null) {
@@ -37,6 +38,10 @@ public abstract class DateUtils {
 
     public static String getDataFormatadaJPQL(Date data) {
         return String.format("{d '%s'}", dataJPQLSimpleFormat.format(data));
+    }
+
+    public static String getHoraFormatadaJPQL(Date horario) {
+        return String.format("{t '%s'}", horarioJPQLSimpleFormat.format(horario));
     }
 
 }

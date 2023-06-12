@@ -9,10 +9,6 @@ import jakarta.ejb.Stateless;
 @Stateless
 @LocalBean
 public class PacienteService extends GenericService<Paciente, FiltrosPaciente> {
-    @Override
-    protected String getPrefixo() {
-        return "p";
-    }
 
     @Override
     protected String getSelect() {

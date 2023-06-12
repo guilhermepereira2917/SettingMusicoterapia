@@ -1,6 +1,9 @@
 package beans.filtros;
 
 import beans.FiltrosService;
+import entities.Paciente;
+import entities.Profissional;
+import utils.DateUtils;
 
 import java.util.Date;
 
@@ -12,9 +15,32 @@ public class FiltrosConsulta extends FiltrosService {
     private Character ordenacao;
 
     @Override
-    protected void processarFiltros(String prefixo) {
-        processaFiltroBetween(prefixo, periodoInicial, periodoFinal, "data");
+    protected void processarFiltros() {
+        processaFiltroBetweenData(periodoInicial, periodoFinal, "c.data");
+
         adicionaOrdenacao(getCampoOrderBy());
+    }
+
+    public void processarFiltrosConsultaDisponivel(Date dataConsulta, Date inicioConsulta, Date finalConsulta, Profissional profissional, Paciente paciente) {
+        String dataFormatada = DateUtils.getDataFormatadaJPQL(dataConsulta);
+        String horarioInicialFormatado = DateUtils.getHoraFormatadaJPQL(inicioConsulta);
+        String horarioFinalFormatado = DateUtils.getHoraFormatadaJPQL(finalConsulta);
+
+        String filtro = " " +
+                "where c.data = " + dataFormatada + " " +
+                "and (" +
+                    "p.id = " + paciente.getId() + " or " +
+                    "r.id = " + profissional.getId() +
+                ") " +
+                "and (" +
+                    "(" + horarioInicialFormatado + " > c.horarioInicio and "  + horarioInicialFormatado + " < c.horarioTermino) or " +
+                    "(" + horarioFinalFormatado + " > c.horarioInicio and "  + horarioFinalFormatado + " < c.horarioTermino) or " +
+                    "(" + horarioInicialFormatado + " = c.horarioInicio and " + horarioFinalFormatado + " >= c.horarioTermino) or " +
+                    "(" + horarioFinalFormatado + " = c.horarioTermino and " + horarioInicialFormatado + " <= c.horarioInicio) or " +
+                    "(" + horarioInicialFormatado + " <= c.horarioInicio and " + horarioFinalFormatado + " >= c.horarioTermino)" +
+                ")";
+
+        processarFiltro(filtro);
     }
 
     @Override
@@ -31,11 +57,11 @@ public class FiltrosConsulta extends FiltrosService {
 
         switch (ordenacao) {
             case 'D':
-                return "c.data";
+                return "c.data, c.horarioInicio";
             case 'C':
-                return "p.id, c.data";
+                return "p.id, c.data, c.horarioInicio";
             case 'N':
-                return "p.nome, c.data";
+                return "p.nome, c.data, c.horarioInicio";
             default:
                 return null;
         }

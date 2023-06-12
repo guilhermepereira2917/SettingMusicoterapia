@@ -2,8 +2,11 @@ package beans.movimentos;
 
 import beans.EntityManager;
 import beans.filtros.FiltrosTratamento;
+import beans.services.ConsultaService;
 import beans.services.TratamentoService;
 import entities.Consulta;
+import entities.Paciente;
+import entities.Profissional;
 import entities.Tratamento;
 import jakarta.ejb.EJB;
 import jakarta.faces.view.ViewScoped;
@@ -25,6 +28,9 @@ public class MovimentoConsultasBean implements Serializable {
 
     @Inject
     TratamentoService tratamentoService;
+	
+    @Inject
+    ConsultaService consultaService;
 
     FiltrosTratamento filtrosTratamento = new FiltrosTratamento();
 
@@ -52,6 +58,9 @@ public class MovimentoConsultasBean implements Serializable {
         Calendar horarioConsulta = Calendar.getInstance();
         horarioConsulta.setTime(tratamento.getHorarioSessao());
 
+        Profissional profissionalTratamento = tratamento.getProfissional();
+        Paciente pacienteTratamento = tratamento.getPaciente();
+
         final int horaConsulta = horarioConsulta.get(Calendar.HOUR_OF_DAY);
         final int minutoConsulta = horarioConsulta.get(Calendar.MINUTE);
 
@@ -67,13 +76,19 @@ public class MovimentoConsultasBean implements Serializable {
             finalConsulta.setTime(inicioConsulta.getTime());
             finalConsulta.add(Calendar.MINUTE, duracaoConsulta);
 
-            Consulta consulta = new Consulta();
-            consulta.setTratamento(tratamento);
-            consulta.setData(dataConsulta.getTime());
-            consulta.setHorarioInicio(inicioConsulta.getTime());
-            consulta.setHorarioTermino(finalConsulta.getTime());
+            boolean horarioDisponivel = consultaService.verificaHorarioConsultaDisponivel(
+                    dataConsulta.getTime(), inicioConsulta.getTime(), finalConsulta.getTime(),
+                    profissionalTratamento, pacienteTratamento);
 
-            entityManager.salvar(consulta);
+            if (horarioDisponivel) {
+                Consulta consulta = new Consulta();
+                consulta.setTratamento(tratamento);
+                consulta.setData(dataConsulta.getTime());
+                consulta.setHorarioInicio(inicioConsulta.getTime());
+                consulta.setHorarioTermino(finalConsulta.getTime());
+
+                entityManager.salvar(consulta);
+            }
 
             dataConsulta.add(Calendar.DAY_OF_MONTH, tratamento.getFrequenciaSessaoDias());
         }
