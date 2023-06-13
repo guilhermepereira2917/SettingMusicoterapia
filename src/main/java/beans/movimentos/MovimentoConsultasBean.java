@@ -86,6 +86,8 @@ public class MovimentoConsultasBean implements Serializable {
                 consulta.setData(dataConsulta.getTime());
                 consulta.setHorarioInicio(inicioConsulta.getTime());
                 consulta.setHorarioTermino(finalConsulta.getTime());
+                consulta.setPaga(false);
+                consulta.setCancelada(false);
 
                 entityManager.salvar(consulta);
             }

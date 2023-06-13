@@ -637,6 +637,8 @@ CREATE TABLE IF NOT EXISTS `SettingMusicoterapia`.`Consulta` (
   `data` DATE NOT NULL,
   `horarioInicio` TIME NOT NULL,
   `horarioTermino` TIME NOT NULL,
+  `paga` TINYINT NOT NULL,
+  `cancelada` TINYINT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_Consulta_Tratamento1_idx` (`idTratamento` ASC) VISIBLE,
   CONSTRAINT `fk_Consulta_Tratamento1`

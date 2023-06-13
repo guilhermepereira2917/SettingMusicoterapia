@@ -9,6 +9,7 @@ import java.util.Date;
 
 public class FiltrosConsulta extends FiltrosService {
 
+    private Integer codigo;
     private Date periodoInicial;
     private Date periodoFinal;
 
@@ -16,12 +17,13 @@ public class FiltrosConsulta extends FiltrosService {
 
     @Override
     protected void processarFiltros() {
+        processaFiltroInteiro(codigo, "c.id");
         processaFiltroBetweenData(periodoInicial, periodoFinal, "c.data");
 
         adicionaOrdenacao(getCampoOrderBy());
     }
 
-    public void processarFiltrosConsultaDisponivel(Date dataConsulta, Date inicioConsulta, Date finalConsulta, Profissional profissional, Paciente paciente) {
+    public void processarFiltrosConsultaDisponivel(Date dataConsulta, Date inicioConsulta, Date finalConsulta, Profissional profissional, Paciente paciente, Integer codigoConsulta) {
         String dataFormatada = DateUtils.getDataFormatadaJPQL(dataConsulta);
         String horarioInicialFormatado = DateUtils.getHoraFormatadaJPQL(inicioConsulta);
         String horarioFinalFormatado = DateUtils.getHoraFormatadaJPQL(finalConsulta);
@@ -40,11 +42,17 @@ public class FiltrosConsulta extends FiltrosService {
                     "(" + horarioInicialFormatado + " <= c.horarioInicio and " + horarioFinalFormatado + " >= c.horarioTermino)" +
                 ")";
 
+        if (codigoConsulta != null) {
+            filtro += " " +
+                    "and c.id <> " + codigoConsulta;
+        }
+
         processarFiltro(filtro);
     }
 
     @Override
     public void limparFiltros() {
+        codigo = null;
         periodoInicial = null;
         periodoFinal = null;
         ordenacao = null;
@@ -65,6 +73,14 @@ public class FiltrosConsulta extends FiltrosService {
             default:
                 return null;
         }
+    }
+
+    public Integer getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(Integer codigo) {
+        this.codigo = codigo;
     }
 
     public Date getPeriodoInicial() {

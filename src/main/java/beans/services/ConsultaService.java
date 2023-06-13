@@ -21,8 +21,12 @@ public class ConsultaService extends GenericService<Consulta, FiltrosConsulta> {
     }
 
     public boolean verificaHorarioConsultaDisponivel(Date dataConsulta, Date inicioConsulta, Date finalConsulta, Profissional profissional, Paciente paciente) {
+        return verificaHorarioConsultaDisponivel(dataConsulta, inicioConsulta, finalConsulta, profissional, paciente, null);
+    }
+
+    public boolean verificaHorarioConsultaDisponivel(Date dataConsulta, Date inicioConsulta, Date finalConsulta, Profissional profissional, Paciente paciente, Integer codigoConsulta) {
         FiltrosConsulta filtrosConsulta = new FiltrosConsulta();
-        filtrosConsulta.processarFiltrosConsultaDisponivel(dataConsulta, inicioConsulta, finalConsulta, profissional, paciente);
+        filtrosConsulta.processarFiltrosConsultaDisponivel(dataConsulta, inicioConsulta, finalConsulta, profissional, paciente, codigoConsulta);
 
         String sql = getSelectComFiltros(filtrosConsulta);
 

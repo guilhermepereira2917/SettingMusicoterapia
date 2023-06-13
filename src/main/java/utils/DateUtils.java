@@ -6,17 +6,29 @@ import java.util.Date;
 
 public abstract class DateUtils {
 
+    private static SimpleDateFormat diaDaSemanaSimpleFormat = new SimpleDateFormat("EEEE");
+
     private static SimpleDateFormat dataSimpleFormat = new SimpleDateFormat("dd/MM/yyyy");
     private static SimpleDateFormat horarioSimpleFormat = new SimpleDateFormat("HH:mm");
     private static SimpleDateFormat dataJPQLSimpleFormat = new SimpleDateFormat("yyyy-MM-dd");
     private static SimpleDateFormat horarioJPQLSimpleFormat = new SimpleDateFormat("HH:mm:ss");
+
+    public static Date getDataAtual() {
+        return new Date();
+    }
+
+    public static boolean isDataMenorQueDataAtual(Date data) {
+        Date dataAtual = getDataAtual();
+
+        return dataAtual.before(data);
+    }
 
     public static Integer calculaIdade(Date data) {
         if (data == null) {
             return null;
         }
 
-        Date dataAtual = new Date();
+        Date dataAtual = getDataAtual();
 
         Calendar calendarioDataAtual = Calendar.getInstance();
         calendarioDataAtual.setTime(dataAtual);
@@ -26,6 +38,14 @@ public abstract class DateUtils {
 
         int idade = calendarioDataAtual.get(Calendar.YEAR) - calendarioDataNascimento.get(Calendar.YEAR);
         return idade;
+    }
+
+    public static String getDescricaoDiaDaSemana(Date data) {
+        if (data == null) {
+            return null;
+        }
+
+        return diaDaSemanaSimpleFormat.format(data);
     }
 
     public static String getDataFormatada(Date data) {

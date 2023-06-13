@@ -10,6 +10,7 @@
 <composite:interface>
     <composite:attribute name="beanCadastro" type="beans.GenericBean" required="true"/>
 
+    <composite:attribute name="renderedBotaoNovo" required="false" default="true"/>
     <composite:attribute name="renderedBotaoPesquisar" required="false" default="true"/>
     <composite:attribute name="pesquisarAction" method-signature="void pesquisarAction()" required="#{cc.attrs.renderedBotaoPesquisar}"/>
 </composite:interface>
@@ -24,8 +25,8 @@
         <p:toolbar>
             <p:toolbarGroup>
                 <p:commandButton value="Novo" actionListener="#{cc.attrs.beanCadastro.novo()}" update="growl form"
-                                 oncomplete="rolarTopo()" icon="pi pi-plus"/>
-                <p:spacer width="10"/>
+                                 oncomplete="rolarTopo()" icon="pi pi-plus" rendered="#{cc.attrs.renderedBotaoNovo}"/>
+                <p:spacer width="10" rendered="#{cc.attrs.renderedBotaoNovo}"/>
 
                 <p:commandButton value="Pesquisar" action="#{cc.attrs.pesquisarAction}" immediate="true"
                                  icon="pi pi-search" rendered="#{cc.attrs.renderedBotaoPesquisar}">

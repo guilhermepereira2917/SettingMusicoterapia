@@ -9,22 +9,23 @@
 <composite:interface>
     <composite:attribute name="labelValue" required="true"/>
 
-    <composite:attribute name="isBuscaMultiplaSelecao" required="false" default="false"/>
+    <composite:attribute name="isBuscaMultiplaSelecao" default="false" required="false"/>
+    <composite:attribute name="disabled" default="false" required="false"/>
 
     <composite:attribute name="inputId" required="#{not cc.attrs.isBuscaMultiplaSelecao}"/>
     <composite:attribute name="inputValue" required="true"/>
     <composite:attribute name="inputObject" required="true"/>
 
-    <composite:attribute name="limpaAction" method-signature="void limpaAction()" required="true"/>
-    <composite:attribute name="buscaAction" method-signature="void buscaAction()" required="true"/>
-    <composite:attribute name="retornoAction" method-signature="void retornoAction()" required="true"/>
+    <composite:attribute name="limpaAction" method-signature="void limpaAction()" required="#{not cc.attrs.disabled}"/>
+    <composite:attribute name="buscaAction" method-signature="void buscaAction()" required="#{not cc.attrs.disabled}"/>
+    <composite:attribute name="retornoAction" method-signature="void retornoAction()" required="#{not cc.attrs.disabled}"/>
 
     <composite:attribute name="update"/>
 </composite:interface>
 
 <composite:implementation>
     <p:remoteCommand name="#{cc.id}" action="#{cc.attrs.retornoAction}" immediate="true"
-                     update="panelGrid #{cc.attrs.update}"/>
+                     update="panelGrid #{cc.attrs.update}" rendered="#{not cc.attrs.disabled}" />
 
     <p:panelGrid columns="1">
         <p:outputLabel for="@next" value="#{cc.attrs.labelValue}"/>
@@ -38,14 +39,14 @@
             <p:inputText value="#{cc.attrs.inputValue}" readonly="true"/>
 
             <p:commandButton action="#{cc.attrs.limpaAction}" immediate="true"
-                             rendered="#{not empty cc.attrs.inputObject}" update="@parent" icon="pi pi-trash"
-                             styleClass="ui-button-danger"/>
+                             rendered="#{not empty cc.attrs.inputObject}" disabled="#{cc.attrs.disabled}"
+                             update="@parent" icon="pi pi-trash" styleClass="ui-button-danger"/>
 
-            <p:commandButton action="#{cc.attrs.buscaAction}" immediate="true" icon="pi pi-search"
+            <p:commandButton action="#{cc.attrs.buscaAction}" disabled="#{cc.attrs.disabled}" immediate="true" icon="pi pi-search"
                              styleClass="ui-button-info">
                 <p:ajax event="dialogReturn" listener="#{buscaBean.resultadoPesquisaInputConverter}"
-                        oncomplete="#{cc.id}()" disabled="#{cc.attrs.isBuscaMultiplaSelecao}"/>
-                <p:ajax event="dialogReturn" oncomplete="#{cc.id}()" disabled="#{not cc.attrs.isBuscaMultiplaSelecao}"/>
+                        oncomplete="#{cc.id}()" disabled="#{cc.attrs.isBuscaMultiplaSelecao or cc.attrs.disabled}"/>
+                <p:ajax event="dialogReturn" oncomplete="#{cc.id}()" disabled="#{not cc.attrs.isBuscaMultiplaSelecao or cc.attrs.disabled}"/>
             </p:commandButton>
         </p:panelGrid>
     </p:panelGrid>

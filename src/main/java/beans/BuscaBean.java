@@ -94,4 +94,7 @@ public class BuscaBean implements Serializable {
         abrirBusca(BuscaEnum.BUSCA_PROFISSIONAIS, multiplaSelecao);
     }
 
+    public void abrirBuscaConsultas(boolean multiplaSelecao) {
+        abrirBusca(BuscaEnum.BUSCA_CONSULTAS, multiplaSelecao);
+    }
 }

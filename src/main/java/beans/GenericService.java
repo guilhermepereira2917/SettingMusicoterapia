@@ -4,6 +4,7 @@ import jakarta.ejb.EJB;
 import java.util.List;
 
 public abstract class GenericService<T, S extends FiltrosService> {
+
     @EJB
     protected EntityManager entityManager;
 

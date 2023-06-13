@@ -1,6 +1,7 @@
 package entities;
 
 import jakarta.persistence.*;
+import utils.DateUtils;
 
 import java.util.Date;
 
@@ -28,6 +29,12 @@ public class Consulta {
     @Temporal(TemporalType.TIMESTAMP)
     private Date horarioTermino;
 
+    @Column(name = "paga", nullable = false)
+    private Boolean paga = false;
+
+    @Column(name = "cancelada", nullable = false)
+    private Boolean cancelada = false;
+
     public Integer getId() {
         return id;
     }
@@ -52,6 +59,10 @@ public class Consulta {
         this.data = data;
     }
 
+    public String getDiaDaSemana() {
+        return DateUtils.getDescricaoDiaDaSemana(data);
+    }
+
     public Date getHorarioInicio() {
         return horarioInicio;
     }
@@ -66,5 +77,21 @@ public class Consulta {
 
     public void setHorarioTermino(Date horarioTermino) {
         this.horarioTermino = horarioTermino;
+    }
+
+    public Boolean getPaga() {
+        return paga;
+    }
+
+    public void setPaga(Boolean paga) {
+        this.paga = paga;
+    }
+
+    public Boolean getCancelada() {
+        return cancelada;
+    }
+
+    public void setCancelada(Boolean cancelada) {
+        this.cancelada = cancelada;
     }
 }
