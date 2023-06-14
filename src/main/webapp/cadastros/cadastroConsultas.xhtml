@@ -21,13 +21,20 @@
                                            inputValue="#{consultaBean.consulta.id}"/>
                         <br/>
 
-                        <p:panelGrid columns="3" layout="grid" styleClass="panelgrid-no-padding">
+                        <p:panelGrid columns="2" layout="grid" styleClass="panelgrid-no-padding">
                             <custom:inputDate
                                     inputValue="#{consultaBean.consulta.data}"
                                     labelValue="Data da Consulta"
                                     required="true"
                                     requiredMessage="Informe a data da consulta!"/>
 
+                            <custom:outputText
+                                    inputValue="#{consultaBean.consulta.diaDaSemana}"
+                                    labelValue="Dia da Semana"
+                                    inputStyleClass="capitalize"/>
+                        </p:panelGrid>
+
+                        <p:panelGrid columns="3" layout="grid" styleClass="panelgrid-no-padding">
                             <custom:inputTime
                                     inputValue="#{consultaBean.consulta.horarioInicio}"
                                     labelValue="Horário Inicial"
@@ -41,12 +48,15 @@
                                     requiredMessage="Informe o horário de término da consulta!"/>
                         </p:panelGrid>
 
+                        <p:panelGrid columns="2" layout="grid" styleClass="panelgrid-no-padding">
+                            <custom:outputText inputValue="#{consultaBean.consulta.situacao}" labelValue="Situação"/>
 
-                        <p:panelGrid columns="1" layout="grid">
-                            <div>
-                                <p:selectBooleanCheckbox value="#{consultaBean.consulta.paga}" itemLabel="Paga"/>
-                                <p:selectBooleanCheckbox value="#{consultaBean.consulta.cancelada}" itemLabel="Cancelada"/>
-                            </div>
+                            <p:panelGrid columns="1" layout="grid">
+                                <div>
+                                    <p:selectBooleanCheckbox value="#{consultaBean.consulta.paga}" itemLabel="Paga"/>
+                                    <p:selectBooleanCheckbox value="#{consultaBean.consulta.cancelada}" itemLabel="Cancelada"/>
+                                </div>
+                            </p:panelGrid>
                         </p:panelGrid>
 
                         <custom:inputConverter
@@ -64,6 +74,8 @@
                                 labelValue="Profissional Responsável"
                                 disabled="true"
                         />
+
+                        <custom:outputText labelValue="Valor" inputValue="#{consultaBean.consulta.tratamento.valorFormatado}" inputStyleClass="output-codigo"/>
                     </p:panelGrid>
                 </p:panel>
             </p:panelGrid>

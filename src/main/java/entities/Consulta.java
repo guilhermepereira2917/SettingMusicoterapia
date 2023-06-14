@@ -59,6 +59,27 @@ public class Consulta {
         this.data = data;
     }
 
+    public String getSituacao() {
+        if (id == null) {
+            return null;
+        }
+
+        if (cancelada) {
+            return "Cancelada";
+        }
+
+        if (DateUtils.isDataMenorQueDataAtual(data) ||
+                (DateUtils.isDataIgualDataAtual(data) && DateUtils.isDataMenorQueDataAtual(horarioInicio))) {
+            if (paga) {
+                return "Realizada";
+            }
+
+            return "Não Paga";
+        }
+
+        return "Agendada";
+    }
+
     public String getDiaDaSemana() {
         return DateUtils.getDescricaoDiaDaSemana(data);
     }

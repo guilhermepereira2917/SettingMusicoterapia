@@ -1,6 +1,7 @@
 package entities;
 
 import jakarta.persistence.*;
+import utils.BigDecimalUtils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -116,6 +117,10 @@ public class Tratamento implements Serializable {
 
     public void setValor(BigDecimal valor) {
         this.valor = valor;
+    }
+
+    public String getValorFormatado() {
+        return BigDecimalUtils.getValorFormatado(valor);
     }
 
     public String getObservacoes() {

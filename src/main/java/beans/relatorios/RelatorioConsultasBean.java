@@ -24,7 +24,7 @@ public class RelatorioConsultasBean extends GenericRelatorioBean<Consulta> imple
 
     @Override
     protected float[] getLargurasColunasRelatorio() {
-        return new float[]{0.12f, 0.16f, 0.12f, 0.12f, 0.28f, 0.16f};
+        return new float[]{0.10f, 0.14f, 0.10f, 0.10f, 0.28f, 0.12f, 0.12f};
     }
 
     @Override
@@ -34,6 +34,7 @@ public class RelatorioConsultasBean extends GenericRelatorioBean<Consulta> imple
         adicionarCelulaCabecalho("Horário Inicial", Element.ALIGN_CENTER);
         adicionarCelulaCabecalho("Horário Final", Element.ALIGN_CENTER);
         adicionarCelulaCabecalho("Paciente", Element.ALIGN_LEFT);
+        adicionarCelulaCabecalho("Situação", Element.ALIGN_LEFT);
         adicionarCelulaCabecalho("Valor", Element.ALIGN_RIGHT);
     }
 
@@ -44,7 +45,8 @@ public class RelatorioConsultasBean extends GenericRelatorioBean<Consulta> imple
         adicionarCelulaLinha(DateUtils.getHorarioFormatado(consulta.getHorarioInicio()), Element.ALIGN_CENTER);
         adicionarCelulaLinha(DateUtils.getHorarioFormatado(consulta.getHorarioTermino()), Element.ALIGN_CENTER);
         adicionarCelulaLinha(consulta.getTratamento().getPaciente().getCodigoNomeFormatado(), Element.ALIGN_LEFT);
-        adicionarCelulaLinha(BigDecimalUtils.getValorFormatado(consulta.getTratamento().getValor()), Element.ALIGN_RIGHT);
+        adicionarCelulaLinha(consulta.getSituacao(), Element.ALIGN_LEFT);
+        adicionarCelulaLinha(consulta.getTratamento().getValorFormatado(), Element.ALIGN_RIGHT);
     }
 
     @Override

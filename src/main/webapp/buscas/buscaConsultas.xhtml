@@ -31,6 +31,10 @@
                 <h:outputText value="#{consulta.id}"/>
             </p:column>
 
+            <p:column headerText="Situação" styleClass="column-pequena">
+                <h:outputText value="#{consulta.situacao}"/>
+            </p:column>
+
             <p:column headerText="Data da Consulta" sortBy="#{consulta.data}" styleClass="column-data">
                 <h:outputText value="#{consulta.data}">
                     <f:convertDateTime pattern="dd/MM/yyyy"/>

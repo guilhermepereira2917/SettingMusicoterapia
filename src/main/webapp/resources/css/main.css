@@ -90,6 +90,10 @@ body .ui-calendar.ui-trigger-calendar input.hasDatepicker {
     padding: 0px !important;
 }
 
+.capitalize {
+    text-transform: capitalize;
+}
+
 *[disabled="disabled"] {
     color: black !important;
     background-color: lightgrey !important;

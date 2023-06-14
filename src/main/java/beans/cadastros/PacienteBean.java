@@ -51,6 +51,8 @@ public class PacienteBean extends GenericBean<Paciente> {
     @Override
     public void setObjetoCrudPesquisa() {
         objetoCrud = buscaBean.getResultadoPesquisa(Paciente.class);
+
+        atualizaTratamentoBeanComUltimoTratamento();
     }
 
     @Override

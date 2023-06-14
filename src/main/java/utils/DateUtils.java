@@ -20,7 +20,13 @@ public abstract class DateUtils {
     public static boolean isDataMenorQueDataAtual(Date data) {
         Date dataAtual = getDataAtual();
 
-        return dataAtual.before(data);
+        return dataAtual.after(data);
+    }
+
+    public static boolean isDataIgualDataAtual(Date data) {
+        Date dataAtual = getDataAtual();
+
+        return dataAtual.compareTo(data) == 0;
     }
 
     public static Integer calculaIdade(Date data) {
