@@ -30,6 +30,9 @@ public abstract class GenericRelatorioBean<T> implements Serializable {
     @Inject
     private VisualizadorPDFBean visualizadorPDF;
 
+    @Inject
+    protected BuscaBean buscaBean;
+
     private PdfPTable tabela;
     private BaseColor corCelula;
 

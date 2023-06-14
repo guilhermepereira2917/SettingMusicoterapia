@@ -4,8 +4,10 @@ import beans.FiltrosService;
 import entities.Paciente;
 import entities.Profissional;
 import utils.DateUtils;
+import utils.SQLUtils;
 
 import java.util.Date;
+import java.util.List;
 
 public class FiltrosConsulta extends FiltrosService {
 
@@ -13,12 +15,15 @@ public class FiltrosConsulta extends FiltrosService {
     private Date periodoInicial;
     private Date periodoFinal;
 
+    List<Paciente> pacientes;
+
     private Character ordenacao;
 
     @Override
     protected void processarFiltros() {
         processaFiltroInteiro(codigo, "c.id");
         processaFiltroBetweenData(periodoInicial, periodoFinal, "c.data");
+        processaFiltroIn(SQLUtils.montarFiltroInPacientes(pacientes), "p.id");
 
         adicionaOrdenacao(getCampoOrderBy());
     }
@@ -55,6 +60,7 @@ public class FiltrosConsulta extends FiltrosService {
         codigo = null;
         periodoInicial = null;
         periodoFinal = null;
+        pacientes = null;
         ordenacao = null;
     }
 
@@ -97,6 +103,14 @@ public class FiltrosConsulta extends FiltrosService {
 
     public void setPeriodoFinal(Date periodoFinal) {
         this.periodoFinal = periodoFinal;
+    }
+
+    public List<Paciente> getPacientes() {
+        return pacientes;
+    }
+
+    public void setPacientes(List<Paciente> pacientes) {
+        this.pacientes = pacientes;
     }
 
     public Character getOrdenacao() {

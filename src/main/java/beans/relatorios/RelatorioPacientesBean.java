@@ -9,6 +9,7 @@ import entities.Paciente;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import utils.SQLUtils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,9 +17,6 @@ import java.util.List;
 @Named
 @ViewScoped
 public class RelatorioPacientesBean extends GenericRelatorioBean<Paciente> implements Serializable {
-
-    @Inject
-    private BuscaBean buscaBean;
 
     @Inject
     private PacienteService pacienteService;
@@ -69,16 +67,8 @@ public class RelatorioPacientesBean extends GenericRelatorioBean<Paciente> imple
         return "RelatorioPacientes";
     }
 
-    public String descricaoPacientesSelecionados() {
-        if (filtrosPaciente.getPacientesSelecionados() == null || filtrosPaciente.getPacientesSelecionados().isEmpty()) {
-            return null;
-        }
-
-        if (filtrosPaciente.getPacientesSelecionados().size() == 1) {
-            return filtrosPaciente.getPacientesSelecionados().get(0).getCodigoNomeFormatado();
-        } else {
-            return filtrosPaciente.getPacientesSelecionados().size() + " pacientes selecionados";
-        }
+    public String getDescricaoPacientesSelecionados() {
+        return SQLUtils.descricaoListaPacientes(filtrosPaciente.getPacientesSelecionados());
     }
 
     public void selecionarPacientes() {

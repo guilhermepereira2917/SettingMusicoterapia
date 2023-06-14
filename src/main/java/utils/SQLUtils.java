@@ -24,6 +24,17 @@ public class SQLUtils {
         return filtroIn.toString();
     }
 
+    public static String descricaoListaPacientes(List<Paciente> pacientes) {
+        if (pacientes == null || pacientes.isEmpty()) {
+            return null;
+        }
+
+        if (pacientes.size() == 1) {
+            return pacientes.get(0).getCodigoNomeFormatado();
+        } else {
+            return pacientes.size() + " pacientes selecionados";
+        }
+    }
 
     public static String montarFiltroInProfissionais(List<Profissional> profissionais) {
         if (profissionais == null || profissionais.isEmpty()) {

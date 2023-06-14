@@ -5,11 +5,13 @@ import beans.filtros.FiltrosConsulta;
 import beans.services.ConsultaService;
 import com.itextpdf.text.Element;
 import entities.Consulta;
+import entities.Paciente;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import utils.BigDecimalUtils;
 import utils.DateUtils;
+import utils.SQLUtils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -63,6 +65,18 @@ public class RelatorioConsultasBean extends GenericRelatorioBean<Consulta> imple
     @Override
     public String getNomeArquivo() {
         return "RelatorioConsultas";
+    }
+
+    public void limpaPacientesSelecionados() {
+        filtrosConsulta.setPacientes(null);
+    }
+
+    public void selecionarPacientes() {
+        filtrosConsulta.setPacientes(buscaBean.getResultadosPesquisa(Paciente.class));
+    }
+
+    public String getDescricaoPacientesSelecionados() {
+        return SQLUtils.descricaoListaPacientes(filtrosConsulta.getPacientes());
     }
 
     public FiltrosConsulta getFiltrosConsulta() {
