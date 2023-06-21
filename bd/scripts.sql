@@ -662,7 +662,11 @@ INSERT INTO Cidade(id, nome, idEstado, cep) VALUES (1, 'Erechim', 1, '99700000')
 INSERT INTO Profissao VALUES (1, 'Terapeuta');
 
 INSERT INTO GrauParentesco VALUES
-	(1, 'Pai/Mãe'),
-    (2, 'Tio/Tia'),
-    (3, 'Avô/Avó'),
-    (4, 'Padrasto/Madrasta');
+	(1, 'Pai'),
+    (2, 'Mãe'),
+    (3, 'Tio'),
+    (4, 'Tia'),
+    (5, 'Avô'),
+    (6, 'Avó'),
+    (7, 'Padrasto'),
+    (8, 'Madrasta');
