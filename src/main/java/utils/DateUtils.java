@@ -10,8 +10,8 @@ public abstract class DateUtils {
     private static SimpleDateFormat horarioSimpleFormat = new SimpleDateFormat("HH:mm");
     private static SimpleDateFormat dataJPQLSimpleFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public static Integer calculaIdade(Date data) {
-        if (data == null) {
+    public static Integer calculaIdade(Date dataNascimento) {
+        if (dataNascimento == null) {
             return null;
         }
 
@@ -21,9 +21,20 @@ public abstract class DateUtils {
         calendarioDataAtual.setTime(dataAtual);
 
         Calendar calendarioDataNascimento = Calendar.getInstance();
-        calendarioDataNascimento.setTime(data);
+        calendarioDataNascimento.setTime(dataNascimento);
+
+        if (calendarioDataAtual.compareTo(calendarioDataNascimento) <= 0) {
+            return 0;
+        }
 
         int idade = calendarioDataAtual.get(Calendar.YEAR) - calendarioDataNascimento.get(Calendar.YEAR);
+
+        if (calendarioDataAtual.get(Calendar.MONTH) == calendarioDataNascimento.get(Calendar.MONTH)) {
+            if (calendarioDataAtual.get(Calendar.DAY_OF_MONTH) < calendarioDataNascimento.get(Calendar.DAY_OF_MONTH)) {
+                idade = idade - 1;
+            }
+        }
+
         return idade;
     }
 
