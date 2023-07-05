@@ -10,8 +10,8 @@ public abstract class RelatorioUtils {
     public final static BaseColor corCelulaPar = new BaseColor(246, 255, 240);
     public final static BaseColor corCelulaImpar = new BaseColor(223, 247, 207);
 
-    public final static Font fonteTexto = FontFactory.getFont(FontFactory.HELVETICA, 14, BaseColor.BLACK);
-    public final static Font fonteCabecalho = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.BLACK);
+    public final static Font fonteTexto = FontFactory.getFont(FontFactory.HELVETICA, 11, BaseColor.BLACK);
+    public final static Font fonteCabecalho = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 11, BaseColor.BLACK);
 
     public final static DateTimeFormatter formatadorDataHoraRelatorio = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
     public final static DateTimeFormatter formatadorDataHoraNomeArquivo = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH:mm:ss");

@@ -13,14 +13,14 @@ import utils.JSFUtils;
 @ViewScoped
 public class ProfissionalBean extends GenericBean<Profissional> {
 
-    @PostConstruct
-    public void init() {
-        novo();
-    }
-
     @Override
     public void novo() {
         objetoCrud = new Profissional();
+    }
+
+    @Override
+    public void setObjetoCrudPesquisa() {
+        objetoCrud = buscaBean.getResultadoPesquisa(Profissional.class);
     }
 
     @Override
@@ -31,10 +31,6 @@ public class ProfissionalBean extends GenericBean<Profissional> {
         }
 
         return true;
-    }
-
-    public void selecionarProfissional() {
-        objetoCrud = buscaBean.getResultadoPesquisa(Profissional.class);
     }
 
     public Profissional getProfissional() {

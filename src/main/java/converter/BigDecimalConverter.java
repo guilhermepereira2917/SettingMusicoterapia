@@ -27,6 +27,7 @@ public class BigDecimalConverter implements Converter {
 
         NumberFormat numberFormat = NumberFormat.getInstance(new Locale("pt", "BR"));
         numberFormat.setMinimumFractionDigits(2);
+        numberFormat.setMinimumIntegerDigits(3);
 
         return numberFormat.format(bigDecimal);
     }

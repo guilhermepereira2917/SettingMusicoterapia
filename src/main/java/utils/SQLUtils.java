@@ -1,24 +1,55 @@
 package utils;
 
 import entities.Paciente;
+import entities.Profissional;
+
 import java.util.List;
 
 public class SQLUtils {
 
-    public static String montarFiltroInPacientes(List<Paciente> lista) {
-        if (lista == null || lista.isEmpty()) {
+    public static String montarFiltroInPacientes(List<Paciente> pacientes) {
+        if (pacientes == null || pacientes.isEmpty()) {
             return null;
         }
 
-        String filtroIn = "(";
+        StringBuilder filtroIn = new StringBuilder();
+        filtroIn.append("(");
         
-        for (int i = 0; i < lista.size() - 1; i++) {
-            filtroIn += lista.get(i).getId().toString() + ", ";                    
+        for (int i = 0; i < pacientes.size() - 1; i++) {
+            filtroIn.append(pacientes.get(i).getId().toString()).append(", ");
         }
         
-        filtroIn += lista.get(lista.size() - 1).getId().toString() + ")";
+        filtroIn.append(pacientes.get(pacientes.size() - 1).getId().toString()).append(")");
         
-        return filtroIn;
+        return filtroIn.toString();
     }
 
+    public static String descricaoListaPacientes(List<Paciente> pacientes) {
+        if (pacientes == null || pacientes.isEmpty()) {
+            return null;
+        }
+
+        if (pacientes.size() == 1) {
+            return pacientes.get(0).getCodigoNomeFormatado();
+        } else {
+            return pacientes.size() + " pacientes selecionados";
+        }
+    }
+
+    public static String montarFiltroInProfissionais(List<Profissional> profissionais) {
+        if (profissionais == null || profissionais.isEmpty()) {
+            return null;
+        }
+
+        StringBuilder filtroIn = new StringBuilder();
+        filtroIn.append("(");
+
+        for (int i = 0; i < profissionais.size() - 1; i++) {
+            filtroIn.append(profissionais.get(i).getId().toString()).append(", ");
+        }
+
+        filtroIn.append(profissionais.get(profissionais.size() - 1).getId().toString()).append(")");
+
+        return filtroIn.toString();
+    }
 }

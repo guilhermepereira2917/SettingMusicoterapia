@@ -15,9 +15,10 @@
                 <p:panelGrid columns="2" layout="grid">
                     <custom:outputText labelValue="Código" inputStyleClass="output-codigo" inputValue="#{familiarBean.familiar.id}"/>
 
-                    <p:panelGrid columns="1"/>                      
+                    <p:panelGrid columns="1"/>
 
-                    <custom:inputText labelValue="Nome" inputValue="#{familiarBean.familiar.nome}"/>
+                    <custom:inputText labelValue="Nome" inputValue="#{familiarBean.familiar.nome}" required="true"
+                                      requiredMessage="Informe o nome do familiar!"/>
 
                     <p:panelGrid columns="2" styleClass="panelgrid-no-padding" layout="grid">
                         <custom:inputDate labelValue="Data Nascimento" inputValue="#{familiarBean.familiar.dataNascimento}" />
@@ -36,22 +37,15 @@
                         buscaAction="#{buscaBean.abrirBuscaProfissoes}"
                         limpaAction="#{familiarBean.limpaProfissao}"                        
                         />
-                    
-                    <p:panelGrid columns="2" styleClass="panelgrid-no-padding" layout="grid">
-                        <custom:inputMask labelValue="CPF" inputValue="#{familiarBean.familiar.cpf}" mask="999.999.999-99"/>
 
-                        <custom:inputNumber labelValue="RG" inputValue="#{familiarBean.familiar.rg}" maxlength="14"/>
-                    </p:panelGrid>
-                    
+                    <custom:inputMask labelValue="CPF" inputValue="#{familiarBean.familiar.cpf}" mask="999.999.999-99"/>
                 </p:panelGrid>
             </p:tab>
         </p:tabView>
 
-        <custom:botoesAcoes 
-            excluirAction="#{familiarBean.excluir()}"
-            cancelarAction="#{familiarBean.cancelar()}"
-            salvarAction="#{familiarBean.salvar()}"
-            novoAction="#{familiarBean.novo()}"                
+        <custom:botoesAcoesCadastro
+            beanCadastro="#{familiarBean}"
+            renderedBotaoPesquisar="false"
             />
     </h:form>
 </html>

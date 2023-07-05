@@ -18,6 +18,10 @@ public class EntityManager implements Serializable {
     }
 
     public void cancelar(Object objeto) {
+        if (!entityManager.contains(objeto)) {
+            objeto = entityManager.merge(objeto);
+        }
+
         entityManager.refresh(objeto);
     }
 

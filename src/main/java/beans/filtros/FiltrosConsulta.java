@@ -1,26 +1,66 @@
 package beans.filtros;
 
 import beans.FiltrosService;
+import entities.Paciente;
+import entities.Profissional;
+import utils.DateUtils;
+import utils.SQLUtils;
 
 import java.util.Date;
+import java.util.List;
 
 public class FiltrosConsulta extends FiltrosService {
 
+    private Integer codigo;
     private Date periodoInicial;
     private Date periodoFinal;
+
+    List<Paciente> pacientes;
 
     private Character ordenacao;
 
     @Override
-    protected void processarFiltros(String prefixo) {
-        processaFiltroBetween(prefixo, periodoInicial, periodoFinal, "data");
+    protected void processarFiltros() {
+        processaFiltroInteiro(codigo, "c.id");
+        processaFiltroBetweenData(periodoInicial, periodoFinal, "c.data");
+        processaFiltroIn(SQLUtils.montarFiltroInPacientes(pacientes), "p.id");
+
         adicionaOrdenacao(getCampoOrderBy());
+    }
+
+    public void processarFiltrosConsultaDisponivel(Date dataConsulta, Date inicioConsulta, Date finalConsulta, Profissional profissional, Paciente paciente, Integer codigoConsulta) {
+        String dataFormatada = DateUtils.getDataFormatadaJPQL(dataConsulta);
+        String horarioInicialFormatado = DateUtils.getHoraFormatadaJPQL(inicioConsulta);
+        String horarioFinalFormatado = DateUtils.getHoraFormatadaJPQL(finalConsulta);
+
+        String filtro = " " +
+                "where c.data = " + dataFormatada + " " +
+                "and (" +
+                    "p.id = " + paciente.getId() + " or " +
+                    "r.id = " + profissional.getId() +
+                ") " +
+                "and (" +
+                    "(" + horarioInicialFormatado + " > c.horarioInicio and "  + horarioInicialFormatado + " < c.horarioTermino) or " +
+                    "(" + horarioFinalFormatado + " > c.horarioInicio and "  + horarioFinalFormatado + " < c.horarioTermino) or " +
+                    "(" + horarioInicialFormatado + " = c.horarioInicio and " + horarioFinalFormatado + " >= c.horarioTermino) or " +
+                    "(" + horarioFinalFormatado + " = c.horarioTermino and " + horarioInicialFormatado + " <= c.horarioInicio) or " +
+                    "(" + horarioInicialFormatado + " <= c.horarioInicio and " + horarioFinalFormatado + " >= c.horarioTermino)" +
+                ")";
+
+        if (codigoConsulta != null) {
+            filtro += " " +
+                    "and c.id <> " + codigoConsulta;
+        }
+
+        processarFiltro(filtro);
     }
 
     @Override
     public void limparFiltros() {
+        codigo = null;
         periodoInicial = null;
         periodoFinal = null;
+        pacientes = null;
         ordenacao = null;
     }
 
@@ -31,14 +71,22 @@ public class FiltrosConsulta extends FiltrosService {
 
         switch (ordenacao) {
             case 'D':
-                return "c.data";
+                return "c.data, c.horarioInicio";
             case 'C':
-                return "p.id, c.data";
+                return "p.id, c.data, c.horarioInicio";
             case 'N':
-                return "p.nome, c.data";
+                return "p.nome, c.data, c.horarioInicio";
             default:
                 return null;
         }
+    }
+
+    public Integer getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(Integer codigo) {
+        this.codigo = codigo;
     }
 
     public Date getPeriodoInicial() {
@@ -55,6 +103,14 @@ public class FiltrosConsulta extends FiltrosService {
 
     public void setPeriodoFinal(Date periodoFinal) {
         this.periodoFinal = periodoFinal;
+    }
+
+    public List<Paciente> getPacientes() {
+        return pacientes;
+    }
+
+    public void setPacientes(List<Paciente> pacientes) {
+        this.pacientes = pacientes;
     }
 
     public Character getOrdenacao() {

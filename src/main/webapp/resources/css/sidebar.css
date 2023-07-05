@@ -4,9 +4,9 @@
 
     width: 100%;
 
-    text-align: center;
+    text-align: left;
 }
 
-.sidebar > tbody > .ui-widget-content > .ui-panelgrid-cell > .ui-linkbutton {
-    width: 100%;
+.ui-menuitem-outline {
+    outline: none !important;
 }

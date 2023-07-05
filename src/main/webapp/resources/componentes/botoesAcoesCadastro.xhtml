@@ -1,0 +1,58 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+<composite:interface>
+    <composite:attribute name="beanCadastro" type="beans.GenericBean" required="true"/>
+
+    <composite:attribute name="renderedBotaoNovo" required="false" default="true"/>
+    <composite:attribute name="renderedBotaoPesquisar" required="false" default="true"/>
+    <composite:attribute name="pesquisarAction" method-signature="void pesquisarAction()" required="#{cc.attrs.renderedBotaoPesquisar}"/>
+</composite:interface>
+
+<composite:implementation>
+    <h:outputScript library="js" name="rolarTopo.js"/>
+
+    <p:remoteCommand name="#{cc.id}" action="#{cc.attrs.beanCadastro.setObjetoCrudPesquisa()}" oncomplete="rolarTopo()"
+                     update="form" process="@this"/>
+
+    <p:panelGrid columns="1">
+        <p:toolbar>
+            <p:toolbarGroup>
+                <p:commandButton value="Novo" actionListener="#{cc.attrs.beanCadastro.novo()}" update="growl form"
+                                 oncomplete="rolarTopo()" icon="pi pi-plus" rendered="#{cc.attrs.renderedBotaoNovo}"/>
+                <p:spacer width="10" rendered="#{cc.attrs.renderedBotaoNovo}"/>
+
+                <p:commandButton value="Pesquisar" action="#{cc.attrs.pesquisarAction}" immediate="true"
+                                 icon="pi pi-search" rendered="#{cc.attrs.renderedBotaoPesquisar}">
+                    <p:ajax event="dialogReturn" listener="#{buscaBean.resultadoPesquisaInputConverter}"
+                            oncomplete="#{cc.id}()"/>
+                </p:commandButton>
+                <p:spacer width="10" rendered="#{cc.attrs.renderedBotaoPesquisar}"/>
+
+                <p:commandButton value="Salvar" actionListener="#{cc.attrs.beanCadastro.salvar()}" process="form"
+                                 update="growl form" oncomplete="rolarTopo()" icon="pi pi-save"/>
+                <p:spacer width="10"/>
+
+                <p:commandButton value="Cancelar" actionListener="#{cc.attrs.beanCadastro.cancelar()}" update="growl form"
+                                 oncomplete="rolarTopo()" icon="pi pi-refresh" styleClass="ui-button-warning">
+                    <p:confirm header="Confirmação" message="Tem certeza que deseja cancelar as alterações?"
+                               icon="pi pi-exclamation-triangle"/>
+                </p:commandButton>
+                <p:spacer width="10"/>
+
+                <p:commandButton value="Excluir" actionListener="#{cc.attrs.beanCadastro.excluir()}" update="growl form"
+                                 icon="pi pi-trash" styleClass="ui-button-danger">
+                    <p:confirm header="Confirmação" message="Tem certeza que deseja excluir o registro?"
+                               icon="pi pi-exclamation-triangle"/>
+                </p:commandButton>
+            </p:toolbarGroup>
+        </p:toolbar>
+    </p:panelGrid>
+</composite:implementation>
+</html>

@@ -19,6 +19,10 @@ public class Profissional implements Serializable {
     @JoinColumn(name = "idProfissao")
     private Profissao profissao;
 
+    public String getCodigoNomeFormatado() {
+        return String.format("%d - %s", id, nome);
+    }
+
     public Integer getId() {
         return id;
     }

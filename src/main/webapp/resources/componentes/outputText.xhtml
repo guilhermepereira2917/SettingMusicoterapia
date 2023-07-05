@@ -10,11 +10,12 @@
         <composite:attribute name="labelValue" required="true"/>
         <composite:attribute name="inputValue" required="true"/>
 
+        <composite:attribute name="panelGridStyleClass"/>
         <composite:attribute name="inputStyleClass"/>
     </composite:interface>
 
     <composite:implementation>
-        <p:panelGrid columns="1">
+        <p:panelGrid columns="1" styleClass="#{cc.attrs.panelGridStyleClass}">
             <p:outputLabel value="#{cc.attrs.labelValue}"/>
             <p:inputText value="#{cc.attrs.inputValue}" styleClass="#{cc.attrs.inputStyleClass}" disabled="true" />                                
         </p:panelGrid>

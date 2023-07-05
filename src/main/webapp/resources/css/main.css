@@ -15,7 +15,7 @@ a {
     width: 100%;
 }
 
-.input-converter > tbody > .ui-widget-content > *:first-child, .input-converter > tbody > .ui-widget-content > *:first-child > * {
+.input-converter-id {
     width: 2.356rem !important;
     text-align: center;
 }
@@ -60,6 +60,10 @@ td.ui-panelgrid-cell {
     padding-top: 2rem !important;
 }
 
+body .ui-calendar.ui-trigger-calendar input.hasDatepicker {
+    max-width: 70%;
+}
+
 .output-codigo {
     width: 8rem;
 }
@@ -68,13 +72,26 @@ td.ui-panelgrid-cell {
     width: 8rem !important;
 }
 
-.column-codigo {
+.column-codigo, .column-inteiro {
     width: 100px;
     text-align: center;
 }
 
+.column-data {
+    width: 180px;
+    text-align: center;
+}
+
+.column-pequena {
+    width: 140px;
+}
+
 .panelgrid-no-padding > * > * > * {
     padding: 0px !important;
+}
+
+.capitalize {
+    text-transform: capitalize;
 }
 
 *[disabled="disabled"] {

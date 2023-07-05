@@ -26,7 +26,14 @@
                                               labelValue="Período Final"/>
                         </p:panelGrid>
 
-                        <br />
+                        <custom:inputConverter
+                                labelValue="Paciente(s)"
+                                limpaAction="#{relatorioConsultasBean.limpaPacientesSelecionados()}"
+                                inputObject="#{relatorioConsultasBean.filtrosConsulta.pacientes}"
+                                retornoAction="#{relatorioConsultasBean.selecionarPacientes()}"
+                                buscaAction="#{buscaBean.abrirBuscaPacientes(true)}"
+                                isBuscaMultiplaSelecao="true"
+                                inputValue="#{relatorioConsultasBean.descricaoPacientesSelecionados}"/>
 
                         <p:panelGrid columns="1">
                             <p:outputLabel value="Ordenação:"/>

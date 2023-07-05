@@ -49,6 +49,13 @@ public class PacienteBean extends GenericBean<Paciente> {
     }
 
     @Override
+    public void setObjetoCrudPesquisa() {
+        objetoCrud = buscaBean.getResultadoPesquisa(Paciente.class);
+
+        atualizaTratamentoBeanComUltimoTratamento();
+    }
+
+    @Override
     public void salvar() {
         super.salvar();
 
@@ -77,7 +84,7 @@ public class PacienteBean extends GenericBean<Paciente> {
     }
 
     public void limpaSemanasPrematuro() {
-        if (!objetoCrud.getPrematuro()) {
+        if (objetoCrud != null && !objetoCrud.getPrematuro()) {
             objetoCrud.setSemanasPrematuro(null);
         }
     }

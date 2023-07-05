@@ -12,7 +12,8 @@
         <composite:attribute name="mask" required="true"/>  
 
         <composite:attribute name="required" default="false"/>
-        <composite:attribute name="requiredMessage" required="#{cc.attrs.required}" default="#{null}"/>
+        <composite:attribute name="requiredMessage" required="#{cc.attrs.required}" default="#{null}"/>\
+        <composite:attribute name="disabled" default="false"/>
 
         <composite:attribute name="converter" default="#{somenteNumerosConverter}"/>
     </composite:interface>
@@ -21,7 +22,7 @@
         <p:panelGrid columns="1">
             <p:outputLabel for="@next" value="#{cc.attrs.labelValue}"/>
             <p:inputMask value="#{cc.attrs.inputValue}" mask="#{cc.attrs.mask}" converter="#{cc.attrs.converter}"
-                         required="#{cc.attrs.required}" requiredMessage="#{cc.attrs.requiredMessage}"/>
+                         required="#{cc.attrs.required}" requiredMessage="#{cc.attrs.requiredMessage}" disabled="#{cc.attrs.disabled}"/>
         </p:panelGrid>
     </composite:implementation>
 </html>

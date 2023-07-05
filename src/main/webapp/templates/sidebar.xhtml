@@ -1,19 +1,26 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition id="sidebar">
-        <p:panelGrid columns="1" styleClass="sidebar">
-            <p:linkButton outcome="/index" value="Tela Principal" icon="pi pi-home" />
-            <p:linkButton outcome="/cadastros/cadastroPacientes" value="Cadastro de Pacientes" icon="pi pi-users" />
-            <p:linkButton outcome="/cadastros/cadastroProfissionais" value="Cadastro de Profissionais" icon="pi pi-user" />
-            <p:linkButton outcome="/movimentos/movimentoConsultas" value="Processar Tratamentos" icon="pi pi-cog" />
-            <p:linkButton outcome="/relatorios/relatorioPacientes" value="Relatório de Pacientes" icon="pi pi-file" />
-            <p:linkButton outcome="/relatorios/relatorioConsultas" value="Relatório de Consultas" icon="pi pi-file" />
-        </p:panelGrid>
+        <p:panelMenu styleClass="sidebar" statefulGlobal="true">
+            <p:submenu label="Cadastros">
+                <p:menuitem outcome="/cadastros/cadastroPacientes" value="Cadastro de Pacientes" icon="pi pi-users" />
+                <p:menuitem outcome="/cadastros/cadastroProfissionais" value="Cadastro de Profissionais" icon="pi pi-user" />
+            </p:submenu>
+
+            <p:submenu label="Movimentos" icon="pi pi-cog">
+                <p:menuitem outcome="/movimentos/movimentoConsultas" value="Processar Tratamentos" icon="pi pi-calendar" />
+                <p:menuitem outcome="/cadastros/cadastroConsultas" value="Editar Consultas" icon="pi pi-calendar" />
+            </p:submenu>
+
+            <p:submenu label="Relatórios" icon="pi pi-file">
+                <p:menuitem outcome="/relatorios/relatorioPacientes" value="Relatório de Pacientes" icon="pi pi-users" />
+                <p:menuitem outcome="/relatorios/relatorioConsultas" value="Relatório de Consultas" icon="pi pi-calendar" />
+            </p:submenu>
+        </p:panelMenu>
     </ui:composition>
 
 </html>

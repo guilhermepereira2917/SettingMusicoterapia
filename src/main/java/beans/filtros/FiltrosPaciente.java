@@ -8,19 +8,25 @@ import java.util.List;
 
 public class FiltrosPaciente extends FiltrosService {
 
+    private Integer codigoPaciente;
+    private String descricaoPaciente;
+
     private List<Paciente> pacientesSelecionados;
+
     private Character filtroInativos;
     private Character ordenacao;
 
     @Override
-    protected void processarFiltros(String prefixo) {
-        processaFiltroIn(prefixo, SQLUtils.montarFiltroInPacientes(pacientesSelecionados), "id");
+    protected void processarFiltros() {
+        processaFiltroInteiro(codigoPaciente, "p.id");
+        processaFiltroLike(descricaoPaciente, "p.nome");
+        processaFiltroIn(SQLUtils.montarFiltroInPacientes(pacientesSelecionados), "p.id");
 
         if (filtroInativos != null) {
-            processaFiltroBooleano(prefixo, filtroInativos == 'I', "inativo");
+            processaFiltroBooleano(filtroInativos == 'I', "p.inativo");
         }
 
-        adicionaOrdenacao(prefixo, getCampoOrderBy());
+        adicionaOrdenacao(getCampoOrderBy());
     }
 
     @Override
@@ -37,12 +43,28 @@ public class FiltrosPaciente extends FiltrosService {
 
         switch (ordenacao) {
             case 'C':
-                return "id";
+                return "p.id";
             case 'N':
-                return "nome";
+                return "p.nome";
             default:
                 return null;
         }
+    }
+
+    public Integer getCodigoPaciente() {
+        return codigoPaciente;
+    }
+
+    public void setCodigoPaciente(Integer codigoPaciente) {
+        this.codigoPaciente = codigoPaciente;
+    }
+
+    public String getDescricaoPaciente() {
+        return descricaoPaciente;
+    }
+
+    public void setDescricaoPaciente(String descricaoPaciente) {
+        this.descricaoPaciente = descricaoPaciente;
     }
 
     public List<Paciente> getPacientesSelecionados() {

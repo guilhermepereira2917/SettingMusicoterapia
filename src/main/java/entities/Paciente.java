@@ -648,4 +648,8 @@ public class Paciente implements Serializable {
         this.inativo = inativo;
     }
 
+    public String getSituacao() {
+        return inativo ? "Inativo" : "Ativo";
+    }
+
 }

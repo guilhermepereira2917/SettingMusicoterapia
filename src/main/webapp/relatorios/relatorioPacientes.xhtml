@@ -5,7 +5,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:custom = "http://java.sun.com/jsf/composite/componentes">
 
 <ui:composition template="/templates/pagina.xhtml">
     <ui:define name="title">
@@ -17,25 +18,14 @@
             <p:panel header="Relatório de Pacientes">
                 <p:panel header="Filtros">
                     <p:panelGrid columns="2" layout="grid">
-                        <p:panelGrid columns="1">
-                            <p:outputLabel for="@next" value="Paciente(s)"/>
-
-                            <p:panelGrid columns="3" styleClass="ui-inputgroup" id="buscaPacientes">
-                                <p:inputText value="#{relatorioPacientesBean.descricaoPacientesSelecionados()}"
-                                             readonly="true"/>
-
-                                <p:commandButton action="#{relatorioPacientesBean.limpaPacientesSelecionados}"
-                                                 rendered="#{not empty relatorioPacientesBean.filtrosPaciente.pacientesSelecionados}"
-                                                 update="buscaPacientes" icon="pi pi-trash"
-                                                 styleClass="ui-button-danger"/>
-                                <p:commandButton action="#{buscaBean.abrirBuscaPacientes}" icon="pi pi-search"
-                                                 styleClass="ui-button-info">
-                                    <p:ajax event="dialogReturn"
-                                            listener="#{relatorioPacientesBean.selecionarPacientes}"
-                                            process="buscaPacientes" update="buscaPacientes"/>
-                                </p:commandButton>
-                            </p:panelGrid>
-                        </p:panelGrid>
+                        <custom:inputConverter
+                                labelValue="Paciente(s)"
+                                limpaAction="#{relatorioPacientesBean.limpaPacientesSelecionados()}"
+                                inputObject="#{relatorioPacientesBean.filtrosPaciente.pacientesSelecionados}"
+                                retornoAction="#{relatorioPacientesBean.selecionarPacientes()}"
+                                buscaAction="#{buscaBean.abrirBuscaPacientes(true)}"
+                                isBuscaMultiplaSelecao="true"
+                                inputValue="#{relatorioPacientesBean.descricaoPacientesSelecionados}"/>
 
                         <p:panelGrid columns="1">
                             <p:outputLabel value="Demonstra somente pacientes:"/>

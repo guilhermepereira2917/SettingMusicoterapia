@@ -2,6 +2,7 @@ package beans.cadastros;
 
 import beans.BuscaBean;
 import beans.GenericBean;
+import entities.Familiar;
 import entities.Profissional;
 import entities.Tratamento;
 import jakarta.faces.view.ViewScoped;
@@ -17,6 +18,11 @@ public class TratamentoBean extends GenericBean<Tratamento> {
     @Override
     public void novo() {
         objetoCrud = new Tratamento();
+    }
+
+    @Override
+    public void setObjetoCrudPesquisa() {
+        objetoCrud = buscaBean.getResultadoPesquisa(Tratamento.class);
     }
 
     @Override

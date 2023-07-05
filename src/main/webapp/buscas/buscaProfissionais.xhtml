@@ -5,56 +5,43 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:custom="http://java.sun.com/jsf/composite/componentes">
 
-<ui:composition template="/templates/dialog.xhtml">
+<ui:composition template="/templates/dialogBusca.xhtml">
     <ui:define name="title">
         Busca de Profissionais
     </ui:define>
 
+    <ui:define name="filtros">
+        <custom:inputNumber inputValue="#{buscaProfissionalBean.filtrosProfissional.codigoProfissional}"
+                            labelValue="Código"
+                            inputStyleClass="input-codigo"/>
+
+        <custom:inputText inputValue="#{buscaProfissionalBean.filtrosProfissional.descricaoProfissional}"
+                          labelValue="Nome "/>
+    </ui:define>
+
     <ui:define name="content">
-        <h:form id="form">
-            <p:panel header="Filtros" styleClass="panel-filtros">
-                <custom:inputNumber inputValue="#{buscaProfissionalBean.filtrosProfissional.codigoProfissional}"
-                                    labelValue="Código"
-                                    inputStyleClass="input-codigo"/>
+        <p:dataTable var="profissional" value="#{buscaProfissionalBean.profissionais}"
+                     rowKey="#{profissional.id}" rows="#{buscaProfissionalBean.rowsPadraoDataTable}" paginator="true"
+                     paginatorPosition="bottom" id="profissionais">
 
-                <custom:inputText inputValue="#{buscaProfissionalBean.filtrosProfissional.descricaoProfissional}"
-                                  labelValue="Nome "/>
-            </p:panel>
+            <p:ajax event="rowDblselect" listener="#{buscaBean.finalizarBuscaSelectEvent}"/>
 
-            <p:spacer width="10"/>
+            <p:column selectionMode="multiple" style="width: 16px; text-align: center" visible="#{buscaProfissionalBean.multiplaSelecao}"/>
 
-            <p:dataTable var="profissional" value="#{buscaProfissionalBean.profissionais}" selectionMode="single"
-                         rowKey="#{profissional.id}"
-                         rows="5" paginator="true" paginatorPosition="bottom"
-                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                         currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} profissionais"
-                         rowsPerPageTemplate="5,{ShowAll|'Todos'}"
-                         editable="true"
-                         id="profissionais">
+            <p:column headerText="Código" sortBy="#{profissional.id}" styleClass="column-codigo">
+                <h:outputText value="#{profissional.id}"/>
+            </p:column>
 
-                <p:ajax event="rowDblselect" listener="#{buscaBean.finalizarBuscaSelectEvent}"/>
+            <p:column headerText="Nome" sortBy="#{profissional.nome}">
+                <h:outputText value="#{profissional.nome}"/>
+            </p:column>
+        </p:dataTable>
+    </ui:define>
 
-                <p:column headerText="Código" sortBy="#{profissional.id}" style="width: 100px; text-align: center">
-                    <h:outputText value="#{profissional.id}"/>
-                </p:column>
-
-                <p:column headerText="Nome" sortBy="#{profissional.nome}" styleClass="text-align-left">
-                    <h:outputText value="#{profissional.nome}"/>
-                </p:column>
-
-                <f:facet name="footer">
-                    <p:commandButton value="Limpar Filtros" action="#{buscaProfissionalBean.limparFiltros()}"
-                                     process="form" update="form" icon="pi pi-ban" styleClass="ui-button-warning"/>
-                    <p:spacer width="10"/>
-
-                    <p:commandButton value="Pesquisar" action="#{buscaProfissionalBean.pesquisar()}"
-                                     process="form" update="form" icon="pi pi-search"/>
-                </f:facet>
-            </p:dataTable>
-        </h:form>
+    <ui:define name="botoes-acoes">
+        <custom:botoesAcoesBusca beanBusca="#{buscaProfissionalBean}"/>
     </ui:define>
 </ui:composition>
 

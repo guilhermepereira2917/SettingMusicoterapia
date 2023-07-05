@@ -11,11 +11,6 @@ import jakarta.ejb.Stateless;
 public class ProfissionalService extends GenericService<Profissional, FiltrosProfissional> {
 
     @Override
-    protected String getPrefixo() {
-        return "p";
-    }
-
-    @Override
     protected String getSelect() {
         return "select p from Profissional p";
     }

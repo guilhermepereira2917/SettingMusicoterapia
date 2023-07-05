@@ -1,51 +1,73 @@
-<!DOCTYPE html>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:custom="http://java.sun.com/jsf/composite/componentes">
 
-    <h:head>
-        <title>Busca de Pacientes</title>
-        <h:outputStylesheet library="css" name="main.css" />             
-    </h:head>
+<ui:composition template="/templates/dialogBusca.xhtml">
+    <ui:define name="title">
+        Busca de Pacientes
+    </ui:define>
 
-    <p:growl id="growl" showDetail="true" />
+    <ui:define name="filtros">
+        <custom:inputNumber inputValue="#{buscaPacienteBean.filtrosPaciente.codigoPaciente}"
+                            labelValue="Código"
+                            inputStyleClass="input-codigo"/>
 
-    <h:body>                        
-        <p:panel>
-            <h:form>                                
-                <p:dataTable var="paciente" value="#{pacienteView.lista}" selection="#{buscaBean.objetosSelecionados}" rowKey="#{paciente.id}"
-                             rows="5"
-                             paginator="true" 
-                             paginatorPosition="bottom"
-                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} pacientes"
-                             rowsPerPageTemplate="5,10,{ShowAll|'Todos'}"
-                             allowUnsorting="true"
-                             selectionPageOnly="false">
-                   
-                    <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
-                    
-                    <p:column headerText="Código" sortBy="#{paciente.id}" filterBy="#{paciente.id}" filterMatchMode="contains" width="100px" style="text-align: center">
-                        <h:outputText value="#{paciente.id}"/>
-                    </p:column>
+        <custom:inputText inputValue="#{buscaPacienteBean.filtrosPaciente.descricaoPaciente}"
+                          labelValue="Nome "/>
 
-                    <p:column headerText="Nome" sortBy="#{paciente.nome}" filterBy="#{paciente.nome}" filterMatchMode="contains">
-                        <h:outputText value="#{paciente.nome}"/>
-                    </p:column>
+        <p:panelGrid columns="1">
+            <p:outputLabel value="Situação:"/>
+            <p:selectOneRadio value="#{buscaPacienteBean.filtrosPaciente.filtroInativos}">
+                <f:selectItem itemLabel="Ativos" itemValue="A"/>
+                <f:selectItem itemLabel="Inativos" itemValue="I"/>
+                <f:selectItem itemLabel="Todos" itemValue="#{null}"/>
+            </p:selectOneRadio>
+        </p:panelGrid>
+    </ui:define>
 
-                    <p:column headerText="Data Admissão" sortBy="#{paciente.dataAdmissao}" styleClass="text-align-left" style="width: 180px">
-                        <h:outputText value="#{paciente.dataAdmissao}">
-                            <f:convertDateTime pattern="dd/MM/yyyy" />
-                        </h:outputText>
-                    </p:column>
-                    
-                    <f:facet name="footer" >
-                        <p:commandButton value="Selecionar" action="#{buscaBean.finalizarBusca}" icon="pi pi-check"/>
-                    </f:facet>
-                </p:dataTable>
-            </h:form>
-        </p:panel>
-    </h:body>
+    <ui:define name="content">
+        <p:dataTable var="paciente" value="#{buscaPacienteBean.pacientes}"
+                     selection="#{buscaPacienteBean.registrosSelecionados}"
+                     rowKey="#{paciente.id}" rows="#{buscaPacienteBean.rowsPadraoDataTable}" paginator="true"
+                     paginatorPosition="bottom" id="pacientes">
+
+            <p:ajax event="rowDblselect" listener="#{buscaPacienteBean.finalizarBuscaMultiplaSelecao()}" disabled="#{not buscaPacienteBean.multiplaSelecao}"/>
+            <p:ajax event="rowDblselect" listener="#{buscaBean.finalizarBuscaSelectEvent}" disabled="#{buscaPacienteBean.multiplaSelecao}"/>
+            <p:column selectionMode="multiple" visible="#{buscaPacienteBean.multiplaSelecao}"/>
+
+            <p:column headerText="Código" sortBy="#{paciente.id}" styleClass="column-codigo">
+                <h:outputText value="#{paciente.id}"/>
+            </p:column>
+
+            <p:column headerText="Nome" sortBy="#{paciente.nome}">
+                <h:outputText value="#{paciente.nome}"/>
+            </p:column>
+
+            <p:column headerText="Situação" sortBy="#{paciente.situacao}" styleClass="column-pequena">
+                <h:outputText value="#{paciente.situacao}"/>
+            </p:column>
+
+            <p:column headerText="Idade" sortBy="#{paciente.idade}" styleClass="column-inteiro">
+                <h:outputText value="#{paciente.idade}"/>
+            </p:column>
+
+            <p:column headerText="Data Admissão" sortBy="#{paciente.dataAdmissao}" styleClass="column-data">
+                <h:outputText value="#{paciente.dataAdmissao}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+    </ui:define>
+
+    <ui:define name="botoes-acoes">
+        <custom:botoesAcoesBusca beanBusca="#{buscaPacienteBean}"/>
+    </ui:define>
+</ui:composition>
 
 </html>
