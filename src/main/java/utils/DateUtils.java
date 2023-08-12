@@ -29,6 +29,12 @@ public abstract class DateUtils {
         return dataAtual.compareTo(data) == 0;
     }
 
+    public static boolean isFinalDeSemana(Calendar calendar) {
+        int diaDaSemana = calendar.get(Calendar.DAY_OF_WEEK);
+
+        return diaDaSemana == Calendar.SATURDAY || diaDaSemana == Calendar.SUNDAY;
+    }
+
     public static Integer calculaIdade(Date data) {
         if (data == null) {
             return null;

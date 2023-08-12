@@ -12,6 +12,7 @@ import jakarta.ejb.EJB;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import utils.DateUtils;
 import utils.JSFUtils;
 
 import java.io.Serializable;
@@ -76,11 +77,12 @@ public class MovimentoConsultasBean implements Serializable {
             finalConsulta.setTime(inicioConsulta.getTime());
             finalConsulta.add(Calendar.MINUTE, duracaoConsulta);
 
-            boolean horarioDisponivel = consultaService.verificaHorarioConsultaDisponivel(
-                    dataConsulta.getTime(), inicioConsulta.getTime(), finalConsulta.getTime(),
-                    profissionalTratamento, pacienteTratamento);
+            boolean consultaDisponivel =
+                    !DateUtils.isFinalDeSemana(dataConsulta) && consultaService.verificaHorarioConsultaDisponivel(
+                        dataConsulta.getTime(), inicioConsulta.getTime(), finalConsulta.getTime(),
+                        profissionalTratamento, pacienteTratamento);
 
-            if (horarioDisponivel) {
+            if (consultaDisponivel) {
                 Consulta consulta = new Consulta();
                 consulta.setTratamento(tratamento);
                 consulta.setData(dataConsulta.getTime());
