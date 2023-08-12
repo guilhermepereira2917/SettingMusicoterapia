@@ -54,6 +54,8 @@ public abstract class GenericBean<T> implements Serializable {
 
     public void excluir() {
         if (entityManager.excluir(objetoCrud)) {
+            novo();
+
             JSFUtils.mensagemSucesso("Registro deletado com sucesso!");
         } else {
             JSFUtils.mensagemErro("Erro ao deletar registro!");
