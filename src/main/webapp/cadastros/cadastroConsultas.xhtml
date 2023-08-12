@@ -48,13 +48,18 @@
                                     requiredMessage="Informe o horário de término da consulta!"/>
                         </p:panelGrid>
 
-                        <p:panelGrid columns="2" layout="grid" styleClass="panelgrid-no-padding">
+                        <p:panelGrid id="panelgridSituacao" columns="2" layout="grid" styleClass="panelgrid-no-padding">
                             <custom:outputText inputValue="#{consultaBean.consulta.situacao}" labelValue="Situação"/>
 
                             <p:panelGrid columns="1" layout="grid">
                                 <div>
-                                    <p:selectBooleanCheckbox value="#{consultaBean.consulta.paga}" itemLabel="Paga"/>
-                                    <p:selectBooleanCheckbox value="#{consultaBean.consulta.cancelada}" itemLabel="Cancelada"/>
+                                    <p:selectBooleanCheckbox value="#{consultaBean.consulta.paga}" itemLabel="Paga" disabled="#{consultaBean.consulta.cancelada}">
+                                        <p:ajax update="form:panelgridSituacao"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:selectBooleanCheckbox value="#{consultaBean.consulta.cancelada}" itemLabel="Cancelada" disabled="#{consultaBean.consulta.paga}">
+                                        <p:ajax update="form:panelgridSituacao"/>
+                                    </p:selectBooleanCheckbox>
                                 </div>
                             </p:panelGrid>
                         </p:panelGrid>
